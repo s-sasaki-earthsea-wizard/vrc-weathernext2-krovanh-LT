@@ -23,3 +23,6 @@ __pycache__/
 # Other agent tooling local settings
 .agent/
 .codex/
+
+# Font sources fetched by scripts/subset-fonts.sh
+.cache/

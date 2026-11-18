@@ -34,10 +34,13 @@ VRChat 物理学集会の発表資料 — **迷走台風を AI は予報でき�
 .
 ├── docs/
 │   └── talk_outline.md    # 構成、各スライドの数字の出典、図の切り抜き方、未決事項
-└── slides-jp/             # reveal.js スライド
+├── scripts/
+│   └── subset-fonts.sh    # 同梱フォントをスライドで使う字に絞る (make fonts)
+└── slides-jp/             # reveal.js スライド (1280×720、16:9)
     ├── index.html
-    ├── styles/custom-style.css
+    ├── styles/custom-style.css   # 「水彩の地図帳」テーマ
     ├── vendor/katex/      # KaTeX 0.17.0 (オフラインで数式を描くため)
+    ├── vendor/fonts/      # Shippori Mincho B1 と Zen Maru Gothic のサブセット (オフラインで使うため)
     └── assets/images/
         ├── krovanh-members-osm-init-2026-09-01T00.png  # 元プロジェクトの試作図
         └── wiki/          # 元プロジェクトの Wiki の図
@@ -60,6 +63,15 @@ npm start
 
 ブラウザで <http://localhost:8000> にアクセスする。
 
+### フォントのサブセットを作り直す
+
+本文に新しい字を足したら、同梱フォントを作り直す。google/fonts から元の TTF を取ってきて (`.cache/fonts/`、git の対象外)、
+`slides-jp/index.html` で使っている字とかな・英数・記号に絞る。[uv](https://docs.astral.sh/uv/) が要る。
+
+```bash
+make fonts
+```
+
 ### スライドの PDF エクスポート
 
 ```bash
@@ -81,6 +93,8 @@ decktape --size 1920x1080 index.html slides.pdf
 - 第三者の著作物はそれぞれの条件に従う。詳細は [NOTICE](NOTICE)
   - [reveal.js](https://github.com/hakimel/reveal.js) (MIT License)
   - [KaTeX](https://github.com/KaTeX/KaTeX) (MIT License、`slides-jp/vendor/katex` に同梱)
+  - [Shippori Mincho B1](https://github.com/fontdasu/ShipporiMincho) と [Zen Maru Gothic](https://github.com/googlefonts/zen-marugothic)
+    (SIL Open Font License 1.1、`slides-jp/vendor/fonts` にサブセットを同梱)
   - 図 (`slides-jp/assets/images/wiki/` と OSM の試作図) は、上のクレジットのデータから作った派生物。転載するときはクレジットを残す
 
 ## 免責事項

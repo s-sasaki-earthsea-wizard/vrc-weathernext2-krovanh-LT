@@ -53,4 +53,4 @@ decktape --size 1600x1200 index.html slides.pdf
 
 ## LICENSE
 
-Apache License 2.0 またはそれ以降の版。第三者の著作物 (reveal.js、KaTeX、図) の条件は、リポジトリ直下の [LICENSE](../LICENSE) と [NOTICE](../NOTICE) を参照。
+Apache License 2.0 またはそれ以降の版。第三者の著作物 (reveal.js、KaTeX、フォント、図) の条件は、リポジトリ直下の [LICENSE](../LICENSE) と [NOTICE](../NOTICE) を参照。

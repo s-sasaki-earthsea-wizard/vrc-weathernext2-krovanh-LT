@@ -1,318 +1,239 @@
 /*********************************************
- * Customized styles 
-*********************************************/
-.reveal .slides section {
-    max-width: 90%;
+ * Watercolor atlas theme for the Krovanh talk
+ *
+ * Built on dist/theme/sky.css: the variables below replace the theme's, and
+ * the rules after them restyle the boxes the slides use. The deck is
+ * 1280x720 (16:9, set in Reveal.initialize). Every slide is a flex column
+ * inside a neat line: the heading sits at the top and the body is centred
+ * in the room left above the footer, which index.html adds to each slide.
+ *
+ * Colours are taken from the title illustration. Contrast ratios in the
+ * comments are against the ground colour.
+ *********************************************/
+
+:root {
+    --atlas-ground: #F6EFE2;
+    --atlas-paper: #FCF8F0;
+    --atlas-ink: #2E2A24;          /* 12.5:1 */
+    --atlas-ink-muted: #6A5A48;    /* 5.8:1 */
+    --atlas-forest: #3C5840;       /* 6.9:1 */
+    --atlas-celadon: #E3EDE7;
+    --atlas-celadon-rule: #9FBDB0;
+    --atlas-ochre: #EED6A6;
+    --atlas-rule: #D9CBB0;
+    --atlas-frame: #CDBE9F;
+    --atlas-bar-current: #B9C9B5;
+    --atlas-bar-ahead: #DCCFB6;
+
+    /* Diagram colours: observed = ink, forecast = blue, net or mean = orange
+     * (4.3:1, so orange text stays at 24px and up). */
+    --atlas-orange: #B9531D;
+    --atlas-blue: #2367B8;
+
+    --r-background-color: var(--atlas-ground);
+    --r-main-font: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Hiragino Sans', sans-serif;
+    --r-main-font-size: 34px;
+    --r-main-color: var(--atlas-ink);
+    --r-block-margin: 0;
+    --r-heading-margin: 0;
+    --r-heading-font: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif;
+    --r-heading-color: var(--atlas-ink);
+    --r-heading-line-height: 1.2;
+    --r-heading-letter-spacing: 0.02em;
+    --r-heading-text-transform: none;
+    --r-heading-font-weight: 700;
+    --r-heading1-size: 54px;
+    --r-heading2-size: 64px;
+    --r-heading3-size: 44px;
+    --r-link-color: #2E6F8E;
+    --r-link-color-dark: #1F4F66;
+    --r-link-color-hover: #1F4F66;
 }
 
-.caption {
-    font-size: 0.7em;
-    color: #666;
-    margin-top: -20px;
+.reveal-viewport {
+    background: var(--atlas-ground);
 }
 
-/* 2カラムレイアウトの調整 */
-.container {
-    display: flex;
-    width: 100%;
-    padding-left: 0;
-    margin-left: -2%;
-    margin-right: -2%;
-    gap: 45px;
+.reveal {
+    font-weight: 500;
+    /* Break Japanese lines between phrases, not inside a word (Chrome). */
+    word-break: auto-phrase;
 }
-  
-.col {
-    flex: 1;
-    padding: 10px;
+
+.reveal .slides {
     text-align: left;
-}
-
-.col-left {
-    flex: 1;
-    padding: 10px;
-    text-align: left;
-    margin-left: -5%;
-    font-size: 0.9em;
-}
-
-.col-right {
-    flex: 1;
-    padding: 10px;
-    text-align: left;
-    margin-right: -5%;
-    font-size: 0.9em;
-}
-
-.col-image-container {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.col-box {
-    background-color: #f8f9fa;
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border: 2px solid #0084ff;
-}
-
-.col-box-left {
-    background-color: #f8f9fa;
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border: 2px solid #0084ff;
-    margin-left: -5%;
-    font-size: 0.9em;
-}
-
-.col-box-right {
-    background-color: #f8f9fa;
-    flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border: 2px solid #0084ff;
-    margin-right: -5%;
-    font-size: 0.9em;
-}
-
-.code-block {
-    background: #002b36;
-    padding: 15px;
-    border-radius: 10px;
-    font-family: monospace;
-    margin: 10px 0;
-    text-align: left;
-    font-size: 0.8em;
-}
-
-.col-code-block-left {
-    background: #002b36;
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    font-family: monospace;
-    margin: 10px 0;
-    text-align: left;
-    font-size: 0.75em;
-    margin-left: 0%;
-}
-
-.col-code-block-right {
-    background: #002b36;
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    font-family: monospace;
-    margin: 10px 0;
-    text-align: left;
-    font-size: 0.75em;
-    margin-right: -20%;
-}
-
-.col-message-block-right {
-    background: #ffffff;
-    flex: 1;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px 0;
-    text-align: left;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.85em;
-    line-height: 1.6;
-    border: 1px solid #e1e4e8;
-    margin-right: -20%;
-    color: #24292e;
-}
-
-.col-message-block-left {
-    background: #ffffff;
-    flex: 1;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px 0;
-    text-align: left;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.85em;
-    line-height: 1.6;
-    border: 1px solid #e1e4e8;
-    margin-left: -20%;
-    color: #24292e;
-}
-
-.reveal .slides .profile-container {
-    display: flex;
-    width: 100%;
-    gap: 125px;
-}
-
-/* プロフィールカード用のカラム */
-.reveal .slides .profile-left {
-    flex: 10;
-    background-color: #f8f9fa;
-    border-radius: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 180%;
-    text-align: left;
-    font-size: 28px;
-    margin-left: 0%;
-    margin-right: -10%;
-    padding: 20px 20px;
-    position: relative;
-    border: 2px solid #FFFFFF;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-/* アバター画像用のカラム */
-.reveal .slides .profile-right {
-    flex: 10;
-    display: flex;
-    align-items: center; 
-    position: relative;
-    margin-right: -10%;
-}
-
-.highlight-box {
-    background-color: #f8f9fa;
-    border-left: 16px solid #0084ff;
-    padding: 5px;
-    padding-left: 15px;
-    text-align: left;
-    width: 110%;
-    margin-left: -5%;
-}
-
-.simple-box {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 10px;
-    padding-left: 10px;
-    margin-left: -5%;
-    padding-right: 10px;
-    margin-right: 0%;
-    gap: 15px;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-}
-
-/* 2カラムレイアウト用スタイル */
-.two-column {
-    display: flex;
-    width: 110%;
-    margin-left: -5%;
-    gap: 30px;
-}
-
-.column-left {
-    flex: 1;
-    text-align: left;
-    font-size: 0.9em;
-}
-
-.column-right {
-    flex: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* チャート用コンテナ */
-.chart-container {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 15px;
-    margin-left: -5%;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    border: 2px solid #28a745;
-}
-
-/* 手法比較用スタイル */
-.method-comparison {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 15px;
-    margin-left: -5%;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    border: 2px solid #17a2b8;
-}
-
-/* 結果表示用スタイル */
-.results-box {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 15px;
-    margin-left: -5%;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    border: 2px solid #dc3545;
-}
-
-/* 輸送メカニズム用スタイル */
-.transport-mechanism {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 15px;
-    margin-left: -5%;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    border: 2px solid #fd7e14;
-}
-
-/* 影響分析用スタイル */
-.impact-analysis {
-    background-color: #f8f9fa;
-    width: 110%;
-    padding: 15px;
-    margin-left: -5%;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 20px;
-    border: 2px solid #6f42c1;
 }
 
 /*********************************************
- * Tables inside boxes (compact, full width)
+ * Slide frame
  *********************************************/
-.reveal .results-box table,
-.reveal .simple-box table {
-    font-size: 0.72em;
-    margin: 6px 0;
-    width: 100%;
+
+/* Reveal shows slides with display: flex (the `display` option). */
+.reveal .slides > section {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px 64px 84px;
+    flex-direction: column;
+    gap: 16px;
+    line-height: 1.45;
 }
 
-.reveal .results-box table th,
-.reveal .results-box table td,
-.reveal .simple-box table th,
-.reveal .simple-box table td {
-    padding: 5px 10px;
-    line-height: 1.35;
+/* Neat line: the frame of an atlas plate. */
+.reveal .slides > section::before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 1.5px solid var(--atlas-frame);
+    pointer-events: none;
 }
 
-.reveal .nowrap-table table th,
-.reveal .nowrap-table table td {
-    white-space: nowrap;
+/* Centre the body between the heading and the footer: the auto margins of
+ * the first body element and of this spacer share the free space. The
+ * negative margin takes back the flex gap the spacer would add. */
+.reveal .slides > section > h3 + * {
+    margin-top: auto;
 }
 
-/* Center the cells of a grid of dots (count x work tables). */
-.reveal .grid-table table th,
-.reveal .grid-table table td {
+.reveal .slides > section::after {
+    content: "";
+    margin-top: auto;
+    margin-bottom: -16px;
+}
+
+/* A line holding only <br> was a spacer between boxes; the flex gap does
+ * that job now. */
+.reveal .slides > section > p:has(> br:only-child) {
+    display: none;
+}
+
+.reveal .slides > section > h3 {
+    position: relative;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--atlas-frame);
+    text-align: left;
+}
+
+.reveal .slides > section > h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 96px;
+    height: 3px;
+    background: var(--atlas-forest);
+}
+
+/*********************************************
+ * Text
+ *********************************************/
+
+.reveal ul,
+.reveal ol {
+    display: block;
+    margin: 0;
+    padding-left: 1.2em;
+}
+
+.reveal li + li {
+    margin-top: 6px;
+}
+
+.reveal li::marker {
+    color: var(--atlas-forest);
+}
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+    margin: 6px 0 0 0;
+    padding-left: 1.2em;
+    font-size: 0.88em;
+}
+
+.reveal ul ul {
+    list-style-type: circle;
+}
+
+/* Markdown bold: a marker stroke, as if drawn over the plate. */
+.reveal strong {
+    background: linear-gradient(transparent 60%, var(--atlas-ochre) 60%);
+}
+
+/* Denser text for slides that carry a table or several bullets. */
+.reveal .dense {
+    font-size: 0.82em;
+}
+
+.reveal .caption {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--atlas-ink-muted);
     text-align: center;
-    padding: 2px 10px;
-    line-height: 1.2;
+}
+
+/* Smaller captions under side-by-side figures. */
+.reveal .caption.small {
+    font-size: 20px;
+}
+
+/* Credit line under a figure. */
+.reveal .credit {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--atlas-ink-muted);
+    text-align: right;
+}
+
+.reveal .column-right .credit,
+.reveal .column-figure .credit {
+    align-self: flex-end;
+}
+
+/* Summary: big numerals between rules, no box. */
+.reveal .summary-list ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: summary;
+    border-top: 1px solid var(--atlas-rule);
+}
+
+.reveal .summary-list li {
+    position: relative;
+    counter-increment: summary;
+    margin: 0;
+    padding: 18px 0 18px 72px;
+    border-bottom: 1px solid var(--atlas-rule);
+    font-size: 32px;
+    line-height: 1.5;
+}
+
+.reveal .summary-list li::before {
+    content: counter(summary);
+    position: absolute;
+    left: 0;
+    top: 16px;
+    font-family: var(--r-heading-font);
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--atlas-forest);
+}
+
+/* A display formula set beside a diagram. */
+.reveal .formula-box {
+    flex: 1 1 auto;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--atlas-paper);
+    border: 1.5px solid var(--atlas-rule);
+    border-radius: 8px;
 }
 
 /* Fit a long reference list on one slide. */
@@ -320,25 +241,162 @@
     font-size: 0.75em;
 }
 
-/* Keep a gap when a box follows another box without a <br>. */
-.reveal .simple-box + .highlight-box,
-.reveal .results-box + .highlight-box,
-.reveal .simple-box + .results-box,
-.reveal .results-box + .simple-box {
-    margin-top: 16px;
+/*********************************************
+ * Boxes
+ *********************************************/
+
+.reveal .simple-box,
+.reveal .results-box {
+    box-sizing: border-box;
+    padding: 16px 28px;
+    background: var(--atlas-paper);
+    border: 1.5px solid var(--atlas-rule);
+    border-radius: 8px;
+    text-align: left;
+}
+
+/* The point of a slide: celadon ground and a compass star. */
+.reveal .highlight-box {
+    box-sizing: border-box;
+    padding: 16px 28px 16px 74px;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%233C5840' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M16 2 L19.5 12.5 L30 16 L19.5 19.5 L16 30 L12.5 19.5 L2 16 L12.5 12.5 Z'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%233C5840' stroke='none'/%3E%3C/svg%3E")
+        no-repeat 26px 22px / 30px 30px,
+        var(--atlas-celadon);
+    border: 1.5px solid var(--atlas-celadon-rule);
+    border-radius: 8px;
+    text-align: left;
+}
+
+.reveal .simple-box > * + *,
+.reveal .results-box > * + *,
+.reveal .highlight-box > * + * {
+    margin-top: 12px;
 }
 
 /*********************************************
- * Show one panel of a multi-panel figure
+ * Tables inside boxes
+ *********************************************/
+
+.reveal .results-box table,
+.reveal .simple-box table {
+    width: 100%;
+    margin: 0;
+    font-size: 0.85em;
+    border-collapse: collapse;
+}
+
+.reveal .results-box table th,
+.reveal .results-box table td,
+.reveal .simple-box table th,
+.reveal .simple-box table td {
+    padding: 8px 16px;
+    line-height: 1.4;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--atlas-rule);
+}
+
+.reveal .results-box table th:first-child,
+.reveal .results-box table td:first-child,
+.reveal .simple-box table th:first-child,
+.reveal .simple-box table td:first-child {
+    padding-left: 0;
+    font-weight: 700;
+}
+
+.reveal .results-box table tr:first-child th,
+.reveal .simple-box table tr:first-child th {
+    color: var(--atlas-forest);
+    border-bottom: 2px solid var(--atlas-ink);
+}
+
+.reveal .results-box table tr:last-child td,
+.reveal .simple-box table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Keep the row labels of a comparison table on one line. */
+.reveal .nowrap-first table td:first-child,
+.reveal .nowrap-first table th:first-child {
+    white-space: nowrap;
+}
+
+/*********************************************
+ * Columns
+ *********************************************/
+
+.reveal .two-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+/* column-left / column-text take the room left over; column-right /
+ * column-figure keep the width of their figure. Order sets the side. */
+.reveal .column-left,
+.reveal .column-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.reveal .column-right,
+.reveal .column-figure {
+    flex: 0 0 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/*********************************************
+ * Figures
+ *
+ * A figure sits on a white mount. On a crop the mount is drawn with
+ * box-shadow, so the crop arithmetic below is unchanged.
+ *********************************************/
+
+.reveal .slides section img.figure {
+    box-sizing: content-box;
+    padding: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--atlas-rule);
+    box-shadow: none;
+    max-width: none;
+    max-height: none;
+}
+
+.reveal .slides > section > p:has(> img) {
+    text-align: center;
+}
+
+/* An <img> on a line of its own is a flex item of the slide: keep its
+ * aspect ratio and centre it instead of stretching it. */
+.reveal .slides > section > img {
+    align-self: center;
+}
+
+/*
+ * Show one panel of a multi-panel figure.
  *
  * Usage: set the panel height with aspect-ratio on the wrapper and the
  * panel top with a negative percentage margin-top on the image. Both are
  * fractions of the source image width, so the crop scales with the slide.
- *********************************************/
+ */
 .reveal .slides section .figure-crop {
+    flex: 0 0 auto;
     overflow: hidden;
-    width: 100%;
-    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 8px #FFFFFF, 0 0 0 9px var(--atlas-rule);
 }
 
 .reveal .slides section .figure-crop img {
@@ -352,54 +410,184 @@
     background: none;
 }
 
-/*********************************************
- * Additions for the Krovanh talk
- *********************************************/
-
-/* Denser text for slides that carry a table or several bullets. */
-.reveal .dense {
-    font-size: 0.78em;
-}
-
-/* Keep the row labels of a comparison table on one line. */
-.reveal .nowrap-first table td:first-child,
-.reveal .nowrap-first table th:first-child {
-    white-space: nowrap;
-}
-
-/* Smaller captions under side-by-side figures. */
-.reveal .caption.small {
-    font-size: 0.55em;
-    margin-top: 0;
-}
-
 /* A crop that also cuts horizontally: set the wrapper width and
  * aspect-ratio, and the image width, margin-left and margin-top, all as
  * fractions of the crop width (see docs/talk_outline.md, "Figures"). */
-.reveal .slides section .figure-crop.figure-crop-2d {
-    margin-left: auto;
-    margin-right: auto;
-}
 
-/* Inline SVG diagrams drawn in the slide itself. */
+/* Inline SVG diagrams drawn in the slide itself. Labels are 24px and up
+ * as displayed, so they read on a VRChat screen. */
 .reveal .slides section svg.diagram {
     display: block;
-    margin: 6px auto;
+    flex: 0 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 100%;
     height: auto;
 }
 
-/* Credit line under a figure. */
-.reveal .credit {
-    font-size: 0.42em;
-    color: #555;
-    margin-top: 2px;
-    text-align: right;
+.reveal .slides section svg.diagram text {
+    font-family: var(--r-main-font);
 }
 
-/* Mark a slide that may be cut for time. */
-.reveal .optional-tag {
-    font-size: 0.45em;
-    color: #b35c00;
-    vertical-align: middle;
+/*********************************************
+ * Footer: chapter, progress, page (built in index.html)
+ *********************************************/
+
+.reveal .slide-footer {
+    position: absolute;
+    left: 64px;
+    right: 64px;
+    top: 652px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.reveal .slide-footer .footer-chapter {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: var(--atlas-forest);
+}
+
+.reveal .slide-footer .footer-progress {
+    flex: 1 1 auto;
+    display: flex;
+    gap: 4px;
+    height: 6px;
+}
+
+.reveal .slide-footer .footer-progress > span {
+    display: block;
+    height: 6px;
+    background: var(--atlas-bar-ahead);
+}
+
+.reveal .slide-footer .footer-progress > span.done {
+    background: var(--atlas-forest);
+}
+
+.reveal .slide-footer .footer-progress > span.current {
+    background: var(--atlas-bar-current);
+}
+
+.reveal .slide-footer .footer-progress > span.current > span {
+    display: block;
+    height: 6px;
+    background: var(--atlas-forest);
+}
+
+.reveal .slide-footer .footer-page {
+    flex: 0 0 auto;
+    color: var(--atlas-ink-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/*********************************************
+ * Title slide and section dividers
+ *********************************************/
+
+.reveal .slides > section.title-slide {
+    padding: 0;
+}
+
+.reveal .slides > section.title-slide::before,
+.reveal .slides > section.title-slide::after,
+.reveal .slides > section.divider::after {
+    content: none;
+}
+
+.reveal .slides section .title-art {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1280px;
+    height: 720px;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    object-fit: cover;
+}
+
+.reveal .title-band {
+    position: absolute;
+    left: 0;
+    top: 528px;
+    width: 1280px;
+    height: 192px;
+    box-sizing: border-box;
+    padding: 26px 64px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--atlas-ground);
+    border-top: 5px double #A8916A;
+    text-align: left;
+}
+
+.reveal .title-band h1 {
+    margin: 0;
+    font-size: 54px;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.reveal .title-band .title-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+}
+
+.reveal .title-band .subtitle {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--atlas-forest);
+}
+
+.reveal .title-band .byline {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--atlas-ink-muted);
+}
+
+.reveal .slides > section.divider {
+    justify-content: center;
+    align-items: center;
+}
+
+/*********************************************
+ * Self-introduction
+ *********************************************/
+
+.reveal .slides .profile-container {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+}
+
+.reveal .slides .profile-left {
+    flex: 1 1 auto;
+    box-sizing: border-box;
+    padding: 20px 32px;
+    background: var(--atlas-paper);
+    border: 1.5px solid var(--atlas-rule);
+    border-radius: 8px;
+    font-size: 30px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.reveal .slides .profile-right {
+    flex: 0 0 auto;
+}
+
+.reveal .slides .profile-right img {
+    display: block;
+    margin: 0;
 }
