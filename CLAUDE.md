@@ -112,9 +112,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ## 現在の状態
 
 - 2026-11-17: テンプレートから作成し、スライドのドラフト (本編 41 枚 + Appendix 9 枚) を作成。
-  全スライドが 700 px に収まることを headless Chrome で確認済み。git 未初期化、未コミット
+  全スライドが 700 px に収まることを headless Chrome で確認済み
 - 2026-11-18: 「話すこと・話さないこと」を削除 (Syota さん)。15 枚目に朝鮮半島へ向かったメンバーを追記。
   停滞の章に「窓の長さ」と「スカログラムの読み方」の 2 枚を追加し、本編 42 枚 + Appendix 9 枚になった。
   続けて Syota さんが「事故報告」と「次にやること」を削除し、「計算にかかった費用」を Appendix の「計算の中身」に統合して
   「計算の中身と費用」にした (Syota さんの指示)。本編 39 枚 + Appendix 9 枚
+- 2026-11-18: スライド全体をレビューし、数字・クレジット・表現の約束にかかる箇所を直して GitHub に public で公開。
+  残りの指摘 (話の流れ、見た目) は `.claude-notes/2026-11-18_review-followups.md` (gitignore 対象)
 - 未決事項は `docs/talk_outline.md` の末尾
