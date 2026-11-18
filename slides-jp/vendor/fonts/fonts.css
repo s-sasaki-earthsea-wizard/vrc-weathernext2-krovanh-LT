@@ -1,0 +1,37 @@
+/*
+ * Web fonts vendored for offline use at talk time.
+ * The woff2 files are subsets made by scripts/subset-fonts.sh (make fonts).
+ * Both families: SIL Open Font License 1.1, see OFL-*.txt in this folder.
+ */
+
+@font-face {
+    font-family: 'Shippori Mincho B1';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url('ShipporiMinchoB1-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Shippori Mincho B1';
+    font-style: normal;
+    font-weight: 800;
+    font-display: block;
+    src: url('ShipporiMinchoB1-ExtraBold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Zen Maru Gothic';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url('ZenMaruGothic-Medium.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Zen Maru Gothic';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url('ZenMaruGothic-Bold.woff2') format('woff2');
+}
