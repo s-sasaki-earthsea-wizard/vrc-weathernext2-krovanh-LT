@@ -53,6 +53,4 @@ decktape --size 1600x1200 index.html slides.pdf
 
 ## LICENSE
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-This project uses [reveal.js](https://github.com/hakimel/reveal.js) which is also licensed under the MIT License.
+Apache License 2.0 またはそれ以降の版。第三者の著作物 (reveal.js、KaTeX、図) の条件は、リポジトリ直下の [LICENSE](../LICENSE) と [NOTICE](../NOTICE) を参照。

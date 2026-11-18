@@ -69,14 +69,20 @@ decktape --size 1920x1080 index.html slides.pdf
 
 ## クレジット
 
-- 予報: WeatherNext 2, Google DeepMind (CC BY 4.0)
-- 初期値: ERA5, Copernicus Climate Change Service
-- 台風の経路: 気象庁 台風位置表 (速報値・確定値)
+- 予報: WeatherNext 2, Google DeepMind (CC BY 4.0)。チェックポイント `WeatherNext2_<2025_model1` から台風の経路を取り出して作図
+- 初期値: ERA5。Contains modified Copernicus Climate Change Service information 2026.
+  Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.
+- 台風の経路: 出典：気象庁ホームページ「台風位置表」(<https://www.data.jma.go.jp/typhoon/position_table/>) を加工して作成 (速報値・確定値)
 - 地図: Natural Earth、© OpenStreetMap contributors
+
+## ライセンス
+
+- このリポジトリのスライドの本文、スタイル、文書は [Apache License 2.0](LICENSE)、またはそれ以降の版
+- 第三者の著作物はそれぞれの条件に従う。詳細は [NOTICE](NOTICE)
+  - [reveal.js](https://github.com/hakimel/reveal.js) (MIT License)
+  - [KaTeX](https://github.com/KaTeX/KaTeX) (MIT License、`slides-jp/vendor/katex` に同梱)
+  - 図 (`slides-jp/assets/images/wiki/` と OSM の試作図) は、上のクレジットのデータから作った派生物。転載するときはクレジットを残す
 
 ## 免責事項
 
 本スライドの内容に従ったいかなる結果においても著者は一切の責任を負いません。
-
-本プロジェクトは [reveal.js](https://github.com/hakimel/reveal.js) (MIT License) と
-[KaTeX](https://github.com/KaTeX/KaTeX) (MIT License、`slides-jp/vendor/katex` に同梱) を利用している。

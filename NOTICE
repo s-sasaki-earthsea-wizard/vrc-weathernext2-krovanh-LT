@@ -1,0 +1,51 @@
+vrc-weathernext2-krovanh-LT
+Copyright 2026 Syota Sasaki
+
+The slide text, styles and documents of this repository are licensed under
+the Apache License, Version 2.0, or (at your option) any later version.
+See LICENSE.
+
+The parts listed below are third-party works and keep their own terms.
+
+--------------------------------------------------------------------------
+reveal.js (slides-jp/dist, slides-jp/plugin, slides-jp/css, slides-jp/js)
+--------------------------------------------------------------------------
+https://github.com/hakimel/reveal.js
+Copyright (C) 2011-2024 Hakim El Hattab, https://hakim.se
+Licensed under the MIT License.
+
+--------------------------------------------------------------------------
+KaTeX (slides-jp/vendor/katex)
+--------------------------------------------------------------------------
+https://github.com/KaTeX/KaTeX
+Copyright (c) 2013-2020 Khan Academy and other contributors
+Licensed under the MIT License; see slides-jp/vendor/katex/LICENSE.
+
+--------------------------------------------------------------------------
+Figures (slides-jp/assets/images/wiki/ and
+slides-jp/assets/images/krovanh-members-osm-init-2026-09-01T00.png)
+--------------------------------------------------------------------------
+Copied unedited from the WeatherNext2-typhoon-Krovanh project,
+https://github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh
+They are drawn from the sources below. Anyone reusing a figure must keep
+these attributions.
+
+WeatherNext 2 (Google DeepMind)
+  Forecasts made with the checkpoint WeatherNext2_<2025_model1 from
+  https://github.com/google-deepmind/weathernext, whose materials other
+  than code are licensed under CC BY 4.0
+  (https://creativecommons.org/licenses/by/4.0/). The figures show storm
+  tracks extracted from those forecasts.
+
+ERA5 (Copernicus Climate Change Service)
+  Contains modified Copernicus Climate Change Service information 2026.
+  Neither the European Commission nor ECMWF is responsible for any use that
+  may be made of the Copernicus information or data it contains.
+
+Typhoon position tables (Japan Meteorological Agency)
+  出典：気象庁ホームページ「台風位置表」
+  (https://www.data.jma.go.jp/typhoon/position_table/) を加工して作成
+
+Maps
+  Natural Earth. The OSM figure uses map tiles
+  (c) OpenStreetMap contributors, https://www.openstreetmap.org/copyright
