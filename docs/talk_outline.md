@@ -132,7 +132,8 @@ VRChat 物理学集会「迷走台風を AI は予報できるか？ 〜WeatherN
 | `assets/images/wiki/2026-10-17-track-ends.png` | Wiki | 32 |
 | `assets/images/wiki/2026-10-19-directedness.png` | Wiki | 30 |
 | `assets/images/wiki/2026-10-19-shape-and-clock.png` | Wiki | 24 (右のパネル、時計の傾き) |
-| `assets/images/krovanh-members-osm-init-2026-09-01T00.png` | 元プロジェクトのセッションノート (2026-09-18 の背景地図の試作) | 1 (仮置き)、6 |
+| `assets/images/krovanh-members-osm-init-2026-09-01T00.png` | 元プロジェクトのセッションノート (2026-09-18 の背景地図の試作) | 6 |
+| `assets/images/title.png` | Syota さんが画像生成 AI で作成 (2026-11-18) | 1 |
 
 - 15 / 19 / 20 / 26 / 29 枚目の模式図はスライドの中にインライン SVG で描いている (データではない)
 - 画像は編集せず、`custom-style.css` の `figure-crop` で切り抜く。縦だけ切るときは、ラッパーの `aspect-ratio` に
@@ -146,7 +147,7 @@ VRChat 物理学集会「迷走台風を AI は予報できるか？ 〜WeatherN
 
 ## 5. 未決事項
 
-1. **タイトルのイラスト。** `title.png` はテンプレートに入っていた別の発表のものなので消した。1 枚目は 6 枚目の図を仮置きしている
+1. ~~**タイトルのイラスト。**~~ 2026-11-18 に決着: Syota さんが画像生成 AI で作った `title.png` を 1 枚目に置いた。クレジットは要らない (Syota さんの判断)
 2. **台風名のカタカナ。** ペイパー (Peipah) は気象庁の呼名表で確認した。クロヴァン (Krovanh) とドゥージェン (Dujuan) は
    まだ裏を取っていない。気象庁の呼名一覧で確認する
 3. **持ち時間。** 10/17 に「30 分」と決めたが、集会の枠は 22:00–23:00 の 1 時間。本編 39 枚は 30 分ならやや多い。
