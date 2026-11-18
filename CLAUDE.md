@@ -101,13 +101,14 @@
 - 📝 update: 更新・改善
 - 🗑️ remove: 削除
 
-**重要**: Claude Code を使用してコミットする場合は、必ず以下の署名を含める:
+**重要**: AI の支援を受けたコミットには、**AI の支援を受けたことだけ**を書く。製品名やモデル名は書かない (すぐ変わるため)。
+コミットメッセージの末尾に次の trailer を入れる:
 
 ```text
-🤖 Assisted by [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
+Assisted-by: AI
 ```
+
+2026-11-18 までのコミット (56fd0e0〜82b6ad5) はテンプレート由来の旧い署名のまま (履歴は書き換えない)。
 
 ## 現在の状態
 
