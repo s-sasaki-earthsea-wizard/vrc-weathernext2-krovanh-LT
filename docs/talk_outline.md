@@ -68,6 +68,7 @@ VRChat 物理学集会「迷走台風を AI は予報できるか？ 〜WeatherN
 | 6 | フック | 09-01 00Z からの 8 本、ループの再現なし | 図は N (2026-09-18 の背景地図の試作)。主張は W1017 |
 | 8 | モデル | 0.25°、6 時間 × 40 = 240 h。学習は 2024 年まで | W1017「What was run」 |
 | 8 | 初期値 | ERA5 (ERA5T)、CDS API | R 4 |
+| 8 | 後継 | WeatherNext 3 は 2026-09-03 発表、予報サービスとしての提供でモデルはオープンソースではない | Google の発表 (https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-weathernext-3/)、「WeatherNext 3 is available as an operational forecast service but is not open source.」(https://developers.google.com/weathernext/guides/osmodel)。2026-11-18 に確認 |
 | 8 | 初期値 | ERA5 は約 31 km (TL639) で計算し、0.25° の格子で配布、1 時間ごと | ECMWF「ERA5: data documentation」、Hersbach et al. (2020)。2026-11-18 に確認 (それまでの「35 km」は誤り) |
 | 9 | アンサンブル | 初期値は 8 本とも同じ。FGN はモデルに摂動を入れる | D「Spread against skill」、Alet et al. (2025) |
 | 10 | 走らせたもの | 役割、開始時刻、比べる範囲、参照表 | W1017 の表 |
@@ -87,6 +88,7 @@ VRChat 物理学集会「迷走台風を AI は予報できるか？ 〜WeatherN
 | 23 | 3 つの外れ方 | ドゥージェン 96 h で 38/39 が道の上、+14 h (31/38 先行) | W1017、D「Findings (2026-10-17)」 |
 | 23 | 3 つの外れ方 | クロヴァン 66 h まで全員、72–90 h で約 6 割、ループ前の遅れ 8–12 h | W1017、D「Findings (2026-10-17)」 |
 | 23 | 3 つの外れ方 | ペイパー 66 h で 22/27、±3 h | D「Findings (2026-10-17)」 |
+| 23 | 言い回し | 「実際の予報なら」と仮定の形でだけ書く (表現の約束 1)。2026-11-18 に「天気予報としては深刻」から改めた | CLAUDE.md |
 | 24 | 形と時計 | Chamfer 中央値 113 / 82 / 66 km、傾き −0.32 / +0.16 / −0.02 | W1019 の表、D「Findings (2026-10-19)」 |
 | 24 | 形と時計 | クロヴァン 40 本すべて傾きが負 (最大 −0.01) | D「Findings (2026-10-19)」 |
 | 24 | 形と時計 | 「約 7 割の速さ」は傾き −0.32 から (k − 1 = −0.32 → k ≈ 0.68) | W1019 の定義から計算 |
