@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>天気予報AIは迷走台風を予測できるか？</title>
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/sky.css">
+  <link rel="stylesheet" href="styles/custom-style.css">
+
+  <!-- Add KaTeX CSS and JS -->
+  <script src="plugin/math/katex.js"></script>
+  <script src="plugin/math/math.js"></script>
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- The separator is "a line holding only ---". A bare "---" would also split on the
+           separator row of a Markdown table. -->
+      <section data-markdown data-separator="\r?\n---\r?\n" data-separator-vertical="^\n--\n">
+        <textarea data-template>
+
+### 天気予報AIは迷走台風を
+### 予測できるか？
+
+<p style="font-size: 0.8em;">〜沖縄を迷走した台風 24 号クロヴァンを追う〜</p>
+
+<img src="assets/images/title.png" height="425pt">
+
+---
+
+### 自己紹介
+
+<div class="profile-container">
+<div class="profile-left">
+
+* さめ(мег-сск)
+  * ⚛️ VRChat物理学集会の主催
+  * 🧑‍🎓 社会人学生として通信制大学在学中
+* 得意分野:
+	* 📸 コンピュータビジョン (画像認識/点群処理)
+	* 🌍 空間情報処理 (地理情報/リモートセンシング)
+	* ☁️ クラウドインフラ設計/IaC (AWS, GCP)
+* 学生時代は地球物理学を専攻
+* 地球観測技術のエンジニアとして活動中
+
+</div>
+
+<div class="profile-right">
+
+<img src="assets/images/icon_circle.png" alt="avatar" height="350px" width="350px">
+
+</div>
+</div>
+
+---
+
+### AI が天気を予報する時代
+
+<div class="simple-box">
+
+* **機械学習の天気予報モデル**が出てきた
+  * 例: NVIDIAのFourCastNet (前回はこれ)、MicrosoftのAurora, Google DeepMind の **WeatherNext 2** (今回はこれ)
+  * [以前の物理学集会](https://vrc-ta-hub.com/event/detail/645/)でも話した
+* 方程式を解くかわりに、過去の大気のデータから**「6 時間後」を学習**
+* GPU 1 枚で、10 日先までの予報が **1 本 約 3 分**
+
+</div>
+
+<div class="highlight-box">
+
+じゃあ、**一番やっかいな台風**でも当たるの？ 自分で試してみた
+
+</div>
+
+Note: 「方程式を解くかわりに」は、数値予報との違いを一言で言うため。モデルの中身には立ち入らない。
+
+---
+
+### 台風 24 号クロヴァン (2026)
+
+<div class="two-column">
+<div class="column-left dense">
+
+<div class="simple-box">
+
+* メディアで「**迷走台風**」と呼ばれた (沖縄付近をウロウロ)
+* 09-01 00Z、沖縄の南東の海上で台風に
+* 最低気圧 985 hPa (09-03)
+* 北へ進み、**最北点で引き返してループ**
+* 一生を北緯 22–30°、東経 126–133° の中で過ごした
+* 進む速さは中央値 **14 km/h** (自転車くらい)
+* 09-07 に熱帯低気圧へ、09-10 に消滅
+
+</div>
+
+<p class="caption">時刻はすべて UTC (日本時間は +9 時間)</p>
+
+</div>
+<div class="column-right">
+
+<div class="figure-crop figure-crop-2d" style="width: 400px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
+
+<p class="credit">気象庁 台風位置表 (速報値)</p>
+
+</div>
+</div>
+
+---
+
+### 台風はなぜ迷走するのか
+
+<div class="simple-box">
+
+* 台風は自分で進むのではなく、**周りの大きな風 (指向流) に流される**
+  * 教科書の経路: 太平洋高気圧のへりを回って北上し、偏西風に乗って北東へ
+* 指向流が弱いと、行き先が決まらず**迷走**する
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+クロヴァンも、指向流が弱いところで止まった**のかもしれない** (※ 今回は未検証)
+
+</div>
+
+---
+
+### AI に針路予測をさせてみた
+
+<div class="figure-crop" style="width: 460px; margin: 0 auto; aspect-ratio: 1360 / 1075;"><img src="assets/images/krovanh-members-osm-init-2026-09-01T00.png" style="margin-top: -9.19%;"></div>
+
+<p class="caption">赤: 気象庁の経路 / 灰: WeatherNext 2 の 8 本 (09-01 00Z から予報)</p>
+
+<div class="highlight-box">
+
+* **実際の「迷走」は再現されない**
+* 北へ抜ける組と大陸へ向かう組に割れた
+
+</div>
+
+Note: ここで「外れた」と言い切らない。この先で「何がどう外れたか」を測っていく。
+
+---
+
+### 今日の問い
+
+<div class="simple-box">
+
+1. これは **AI モデルの限界**？ それとも **クロヴァンが難しかった**だけ？
+2. 「外れ方」をどう測れば、**台風どうしを比べられる**か？
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+答えるために、**本州へ北上する典型的な台風 2 つ**で同じ実験をして、対照にした
+
+</div>
+
+---
+
+### 天気予報 = 初期値 + モデル
+
+<div class="simple-box dense">
+
+* **初期値: ERA5** (ヨーロッパの再解析データ)
+  * 過去の観測を総動員して作り直した、地球の大気の状態
+  * 空間分解能: 35km, 時間分解能: 1時間
+* **モデル: WeatherNext 2** (Google DeepMind)
+  * 約 25 km の格子、6 時間ずつ 40 回 = **10 日先まで**
+  * 学習は 2024 年まで。今日の台風はどれも**学習の外**
+  * 後継のWeatherNext 3が発表されているが、モデルは一般には未公開
+
+</div>
+
+<div class="highlight-box dense">
+
+* 初期値は「後から観測を集めて作った状態」
+* **実際の予報の腕試しではなく**、「状態がよく分かっていたら、どこまで先を読めるか」(予測可能性) の実験
+
+</div>
+
+Note: ERA5 の速報版 (ERA5T) を使っている。ARCO-ERA5 は数か月遅れるので使えなかった。
+
+---
+
+### アンサンブル: 合計で8回予報する
+
+<div class="simple-box">
+
+* 天気予報は初期値鋭敏: 小さな違いが数日で大きく育つ
+* WeatherNext 2 はモデルの中に**ノイズ**を入れて、同じ初期値から**少しずつ違う未来**を出す
+* 8 本の**ばらつき = 予報の自信のなさ**
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+今回は 8 本とも**初期値は同じ ERA5**。ばらつきはゼロから育つ (あとで効いてくる)
+
+</div>
+
+---
+
+### 何を走らせたか
+
+<div class="results-box dense nowrap-first">
+
+<table>
+<tr><th></th><th>クロヴァン (T2624)</th><th>ドゥージェン (T2625)</th><th>ペイパー (T2515)</th></tr>
+<tr><td>役割</td><td>主役</td><td>対照: 同じ年・同じ手順、<br>教科書どおりの転向</td><td>対照: 同じくらいの強さ、<br>同じ海域、同じ時期</td></tr>
+<tr><td>最低気圧</td><td>985 hPa</td><td>960 hPa</td><td>992 hPa</td></tr>
+<tr><td>予報の開始</td><td>台風になった時刻の前後 12 h</td><td>台風になった時刻の前後 12 h</td><td>最初の熱帯低気圧の前後 12 h</td></tr>
+<tr><td>比べる範囲</td><td>熱帯低気圧に弱まるまで</td><td>温帯低気圧に変わるまで</td><td>温帯低気圧に変わるまで</td></tr>
+<tr><td>答え合わせ</td><td>気象庁 速報値</td><td>気象庁 速報値</td><td>気象庁 確定値</td></tr>
+</table>
+
+</div>
+
+<div class="highlight-box dense">
+
+3 個 × 開始時刻 5 つ (6 時間おき) × 8 本 = **120 本の 10 日予報**
+
+</div>
+
+Note: ペイパーは台風だった期間が 42 時間しかないので、開始時刻を最初の熱帯低気圧に合わせた。
+
+---
+
+### 対照の 2 つ
+
+<div class="two-column">
+<div class="column-right">
+
+<div class="figure-crop figure-crop-2d" style="width: 290px; aspect-ratio: 405 / 485;"><img src="assets/images/wiki/2026-10-17-dujuan-tracks.png" style="width: 454.32%; margin-left: -322.22%; margin-top: -159.26%;"></div>
+
+<p class="caption small">ドゥージェン: 北上して 09-20 に北東へ転向。<br>伊豆諸島を抜けて 09-22 に温帯低気圧</p>
+
+</div>
+<div class="column-right">
+
+<div class="figure-crop figure-crop-2d" style="width: 340px; aspect-ratio: 502 / 440;"><img src="assets/images/wiki/2026-10-17-peipah-tracks.png" style="width: 366.53%; margin-left: -249.0%; margin-top: -115.54%;"></div>
+
+<p class="caption small">ペイパー (2025 年): 北北西から転向して<br>九州・四国・東海を横切り、09-05 に温帯低気圧</p>
+
+</div>
+</div>
+
+<p class="credit">気象庁 台風位置表 (ドゥージェン: 速報値、ペイパー: 確定値)</p>
+
+---
+
+### 台風の中心をどう追うか
+
+<div class="simple-box">
+
+* WeatherNext 2 に**付属の追跡プログラム**をそのまま使う (自作しない)
+* 6 時間ごとに**閉じた渦**を見つけて、つないで経路にする
+* 観測の位置は**一切渡さない**: モデルが自分で台風を生む
+* 台風になった時刻に観測に一番近い渦を、その台風とする
+
+</div>
+
+<div class="highlight-box">
+
+追跡プログラムが追うのは「台風」ではなく「**渦**」(あとで効いてくる)
+
+</div>
+
+Note: 観測の位置を渡しても 6 時間後以降の経路は変わらなかった。渡すと 2.5 日未満の経路を消すフィルタが外れるので、全ケース渡さないことにした。
+
+---
+
+### 結果 1: クロヴァンの 5 回の予報
+
+<img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" height="490px" style="box-shadow: none;">
+
+<p class="caption">黒: 気象庁 / 灰: 各回 8 本。右下: 観測の拡大 (日付は 00Z)</p>
+
+---
+
+### 割れた。そして誰もループしない
+
+<div class="simple-box">
+
+* 40 本の行き先: **北 30 本**、大陸 4 本、東 1 本、観測の範囲内 5 本
+  * 北の組も 1 つではない。大半は九州・本州へ、**朝鮮半島へ向かったものが 3 本ほど**
+* 観測のループを再現したメンバーは **0 本**
+* 予報の開始を 6 時間ずつずらしても、傾向は同じ
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+最初の 2 日の誤差は 70–120 km。ERA5 自身の台風の位置のずれ (23–110 km) と同じくらい
+
+</div>
+
+Note: 「開始が遅いほど良くなる」という単調な傾向もない。8 本・1 台風では、開始時刻の効果は解析のノイズに埋もれる。朝鮮半島の 3 本は図から目で数えた値 (行き先の表は NAS とともに失われた): 09-01 12Z 開始の 2 本が半島の西岸と南岸に届き、09-01 00Z 開始の 1 本は済州島の西で北上中に途切れる。行き先の「北」は観測の箱の北辺から出たという意味で、朝鮮半島へ向かった組も含む。
+
+---
+
+### 「平均」の罠
+
+<svg class="diagram" viewBox="0 0 600 330" width="520" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<defs><marker id="arrow-mean" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#777"/></marker></defs>
+<path d="M 300 310 C 310 240, 360 160, 470 40" fill="none" stroke="#777" stroke-width="3" marker-end="url(#arrow-mean)"/>
+<path d="M 300 310 C 320 230, 390 170, 510 70" fill="none" stroke="#777" stroke-width="3" marker-end="url(#arrow-mean)"/>
+<path d="M 300 310 C 280 250, 200 200, 80 150" fill="none" stroke="#777" stroke-width="3" marker-end="url(#arrow-mean)"/>
+<path d="M 300 310 C 290 260, 230 230, 100 190" fill="none" stroke="#777" stroke-width="3" marker-end="url(#arrow-mean)"/>
+<path d="M 300 310 C 300 250, 290 190, 285 110" fill="none" stroke="#e0692e" stroke-width="4" stroke-dasharray="10 7"/>
+<path d="M 300 310 C 300 230, 330 170, 290 150 C 240 125, 250 190, 300 175" fill="none" stroke="#111" stroke-width="4"/>
+<text x="455" y="185" font-size="22" fill="#555">北の組</text>
+<text x="40" y="125" font-size="22" fill="#555">大陸の組</text>
+<text x="250" y="95" font-size="22" fill="#e0692e" text-anchor="middle">平均 (誰も通っていない)</text>
+<text x="245" y="160" font-size="22" fill="#111" text-anchor="end">観測のループ</text>
+</svg>
+
+<div class="simple-box dense">
+
+* 8 本を平均すると、2 つの組のあいだ = **観測のループのあたり**を通る
+* 台風になった時刻からの予報: 120 時間後の**平均の位置の誤差 50 km**、1 本ずつの誤差の平均は 170 km
+* 双峰分布の平均は、どちらの山でもない谷にある
+
+</div>
+
+Note: だから比較の図にはアンサンブル平均の経路を描かない。かわりに「200 km 以内にいる本数」と「行き先」を数える。
+
+---
+
+### 対照 1: ドゥージェン
+
+<img src="assets/images/wiki/2026-10-17-dujuan-tracks.png" height="400px" style="box-shadow: none;">
+
+<div class="highlight-box">
+
+転向まで、ほぼ全員が観測の経路をなぞる。転向後は北東に扇形に広がる
+
+</div>
+
+---
+
+### 対照 2: ペイパー
+
+<img src="assets/images/wiki/2026-10-17-peipah-tracks.png" height="390px" style="box-shadow: none;">
+
+<div class="highlight-box">
+
+北北西からの転向も再現。日本の上では観測の経路とその北に広がる
+
+</div>
+
+Note: 見た目では、対照の 2 つはクロヴァンよりずっと良い。では数字では？
+
+---
+
+### 結果 2: 距離の誤差で比べると
+
+<div class="figure-crop" style="width: 560px; margin: 0 auto; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-error-by-storm.png" style="margin-top: -7.03%;"></div>
+
+<div class="highlight-box dense">
+
+台風の針路を予測できていそうに見えるドゥージェンの方がクロヴァンよりも**渦の中心位置の実測との残差は大きい**
+
+</div>
+
+Note: 上: 1 本ずつの誤差の平均 (各台風 40 本)。下: 観測の位置から 200 km 以内にいる割合。
+
+---
+
+### なぜ？ 速い台風では「遅れ」が距離になる
+
+<svg class="diagram" viewBox="0 0 800 320" width="580" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<path d="M 40 290 C 200 250, 260 230, 300 222 S 420 175, 470 150 S 650 60, 770 40" fill="none" stroke="#111" stroke-width="5"/>
+<line x1="300" y1="222" x2="470" y2="150" stroke="#e0692e" stroke-width="3" stroke-dasharray="8 6"/>
+<line x1="300" y1="222" x2="239" y2="48" stroke="#2a78d6" stroke-width="3" stroke-dasharray="8 6"/>
+<circle cx="300" cy="222" r="11" fill="#111"/>
+<circle cx="470" cy="150" r="11" fill="#e0692e"/>
+<circle cx="239" cy="48" r="11" fill="#2a78d6"/>
+<text x="310" y="262" font-size="22" fill="#111">観測の台風 (時刻 t)</text>
+<text x="490" y="185" font-size="22" fill="#e0692e">A: 道の上、6 時間先行</text>
+<text x="260" y="40" font-size="22" fill="#2a78d6">B: 別の道</text>
+<text x="40" y="250" font-size="20" fill="#111">観測の経路</text>
+<text x="420" y="225" font-size="20" fill="#555">どちらも 300 km</text>
+</svg>
+
+<div class="simple-box dense">
+
+* 時速 50 km の台風で 6 時間早ければ、それだけで **300 km** の「誤差」
+* ドゥージェンとペイパーは転向後に時速 35–52 km、クロヴァンは中央値 14 km
+
+</div>
+
+<div class="highlight-box dense">
+
+km の誤差は「**違う道**」と「**正しい道を違う時刻に**」を区別しない
+
+</div>
+
+---
+
+### 結果 3: 「道」と「時計」に分ける
+
+<svg class="diagram" viewBox="0 0 800 300" width="700" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<polyline points="40,290 300,220 560,140 760,60" fill="none" stroke="#111" stroke-width="5"/>
+<line x1="380" y1="80" x2="412" y2="185" stroke="#2a78d6" stroke-width="3" stroke-dasharray="8 6"/>
+<circle cx="380" cy="80" r="11" fill="#2a78d6"/>
+<circle cx="412" cy="185" r="8" fill="#fff" stroke="#111" stroke-width="3"/>
+<circle cx="300" cy="220" r="11" fill="#111"/>
+<text x="400" y="70" font-size="22" fill="#2a78d6">予報 (時刻 t)</text>
+<text x="378" y="140" font-size="22" fill="#2a78d6" text-anchor="end">道からの距離</text>
+<text x="430" y="215" font-size="20" fill="#111">最寄り点: 観測が通ったのは t + 6 h</text>
+<text x="300" y="260" font-size="20" fill="#111" text-anchor="middle">観測 (時刻 t)</text>
+<text x="660" y="140" font-size="20" fill="#111">観測の経路</text>
+</svg>
+
+<div class="simple-box dense">
+
+* **道**: 予報の位置から観測の経路までの最短距離。200 km 以内なら「道の上」
+* **時計**: 最寄り点を観測の台風が通った時刻 − 予報の時刻。<b>+ なら先行</b> (この例は +6 h)
+* 経路の端より先に行った位置は、道を外れたとは数えず別に数える
+
+</div>
+
+Note: 進行方向に沿った「前後・左右」に分ける普通のやり方は、ループで向きが回るクロヴァンには使えない。
+
+---
+
+### ループする道では時計が読めない
+
+<div class="two-column">
+<div class="column-left dense">
+
+<div class="simple-box">
+
+* クロヴァンの経路は**自分と交差する**
+* 数日離れた 2 回の通過が、同じくらい近くなる
+* だから時計は**ループの始まりまで**しか読まない
+  * 最北点 29.8°N 127.4°E、09-04 06Z
+* 道からの距離は経路全体で測る (ループは面を覆うので甘め)
+
+</div>
+
+</div>
+<div class="column-right">
+
+<div class="figure-crop figure-crop-2d" style="width: 380px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
+
+<p class="credit">気象庁 台風位置表 (速報値)</p>
+
+</div>
+</div>
+
+---
+
+### 道と時計で見ると
+
+<div class="figure-crop" style="width: 620px; margin: 0 auto; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-road-and-clock.png" style="margin-top: -7.03%;"></div>
+
+<p class="caption">上: 道の上にいる割合 / 下: 道の上のメンバーの時計 (中央値と四分位、+ = 先行)</p>
+
+---
+
+### 3 つの台風、3 つの外れ方
+
+<div class="results-box dense">
+
+<table>
+<tr><th></th><th>道</th><th>時計</th></tr>
+<tr><td>ドゥージェン</td><td>96 h でも 39 本中 38 本が道の上</td><td>転向後に <b>+14 h</b> (96 h、38 本中 31 本が先行)</td></tr>
+<tr><td>クロヴァン</td><td>66 h まで全員 → 停滞の時刻 (72–90 h) に約 6 割へ</td><td>ループの前から <b>8–12 h 遅れ</b></td></tr>
+<tr><td>ペイパー</td><td>66 h で 27 本中 22 本</td><td><b>±3 h</b> 以内</td></tr>
+</table>
+
+</div>
+
+<div class="highlight-box">
+
+* ドゥージェンの大きな km 誤差は、ほとんど**時計のずれ** (半日早く転向・加速)
+  * 針路は予測できても到達時刻までは予測できていない (天気予報としては深刻)
+* クロヴァンは**道そのものが割れた**
+
+</div>
+
+---
+
+### メンバー 1 本ずつ: 形と時計
+
+<div class="two-column">
+<div class="column-left dense">
+
+<div class="simple-box nowrap-first">
+
+* **形**: 観測の経路との Chamfer 距離 (互いの最寄り点までの距離の平均。時刻は使わない)
+* **時計の傾き**: 道に沿った速さの比 − 1
+
+<table>
+<tr><th>中央値</th><th>形</th><th>傾き</th></tr>
+<tr><td>クロヴァン</td><td>113 km</td><td>−0.32</td></tr>
+<tr><td>ドゥージェン</td><td>82 km</td><td>+0.16</td></tr>
+<tr><td>ペイパー</td><td>66 km</td><td>−0.02</td></tr>
+</table>
+
+</div>
+
+</div>
+<div class="column-right">
+
+<div class="figure-crop figure-crop-2d" style="width: 400px; aspect-ratio: 845 / 663;"><img src="assets/images/wiki/2026-10-19-shape-and-clock.png" style="width: 265.09%; margin-left: -165.09%; margin-top: -4.73%;"></div>
+
+<p class="caption small">横: 形 (Chamfer 距離、km) / 縦: 時計の傾き</p>
+
+</div>
+</div>
+
+<div class="highlight-box dense">
+
+形だけでは分けられない。**傾き**で分かれる: クロヴァンは 40 本**全員**が観測より遅い (道に沿って約 7 割の速さ)
+
+</div>
+
+Note: クロヴァンで大陸へ行った組と範囲内に留まった組は、形ではドゥージェン並み (中央値 73 km と 90 km、ドゥージェンの四分位は 61–100 km)。
+
+---
+
+### 結果 4: 停滞とは何か
+
+<div class="simple-box">
+
+* 「止まった」台風も、実際は**ふらふら動いている**
+* 速さで決めると、「遅いがまっすぐ」と「その場でうろうろ」を区別できない
+* 見たいのは**向きがそろっているか**
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+* 流れに浮かぶ粒子: 流れに乗って進む (**ドリフト**) か、ランダムに揺れる (**拡散**) か。
+* その比が **Péclet 数** (移流と拡散のどちらが優位か？)
+
+</div>
+
+---
+
+### 台風の経路の Péclet 数
+
+<svg class="diagram" viewBox="0 0 800 200" width="640" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<defs><marker id="arrow-pe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2a78d6"/></marker></defs>
+<polyline points="40,160 120,135 205,115 285,85 365,60" fill="none" stroke="#2a78d6" stroke-width="4" marker-end="url(#arrow-pe)"/>
+<line x1="40" y1="160" x2="365" y2="60" stroke="#e0692e" stroke-width="3" stroke-dasharray="8 6"/>
+<polyline points="520,120 600,80 640,150 570,170 610,105" fill="none" stroke="#2a78d6" stroke-width="4" marker-end="url(#arrow-pe)"/>
+<line x1="520" y1="120" x2="610" y2="105" stroke="#e0692e" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="200" y="195" font-size="22" text-anchor="middle">Pe 大: 向きがそろう</text>
+<text x="590" y="195" font-size="22" text-anchor="middle">Pe 小: うろうろ</text>
+<text x="700" y="60" font-size="18" fill="#e0692e" text-anchor="middle">正味の移動</text>
+</svg>
+
+<div>
+$$ \mathrm{Pe} = \frac{\left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2}}{\sum_{i=1}^{n} \left\lvert \Delta \mathbf{x}_{i} - \overline{\Delta \mathbf{x}} \right\rvert^{2}} $$
+</div>
+
+<div class="simple-box dense">
+
+* 分子: 窓のあいだの**正味の移動** (ドリフト) の 2 乗
+* 分母: 6 時間ごとの歩幅の**ばらつき** (拡散)。同じ歩幅から測るので、拡散係数を外から持ち込まない
+
+</div>
+
+---
+
+### 仮定を足さない (1): 何と比べるか
+
+<div class="simple-box dense">
+
+* ランダムウォークなら Pe ≈ n / (n − 1) (4 歩で 1.33、Appendix)
+* でも**台風はランダムウォークではない**。この値を基準にすると、「台風はこう動くはず」という仮定を 1 つ足すことになる
+* → **同じ時刻・同じ長さの窓での、観測の台風の Pe** と比べる: $\log_{10} (\mathrm{Pe}^{\mathrm{member}} / \mathrm{Pe}^{\mathrm{obs}})$
+  * 0: 観測と同じ / +1: メンバーの Pe が観測の 10 倍 (よりまっすぐ) / −1: 1/10 (よりうろうろ)
+
+</div>
+
+<div class="highlight-box dense">
+
+測り方は**追加のメンバーを走らせる前に**書き残した (あとで独立に確かめるため)
+
+</div>
+
+---
+
+### 仮定を足さない (2): 窓の長さ
+
+<div class="simple-box dense">
+
+* 窓の長さを 1 つに決める = **「何時間とどまったら停滞か」を測る側が決める**こと
+* 同じ時刻でも、窓の長さで答えが変わる
+  * 09-04 00Z のクロヴァン: 18 時間の窓で Pe 0.2 (うろうろ)、48 時間の窓で 2.3 (向きがそろう)
+  * 停滞は約 1 日、ループは約 2 日。現象ごとに効く長さが違う
+* 9 月に一度つまずいた: 「24 時間で 300 km 未満なら停滞」と決め打ちしたら、**遅いがまっすぐ**な動きまで停滞に数えていた (→「外れた仮説」)
+
+</div>
+
+<div class="highlight-box dense">
+
+1 つに決めず、**18〜36 時間の窓を全部並べて**、窓の長さによらない特徴だけを読む
+
+</div>
+
+Note: 下限の 18 時間は、ばらつきを 3 歩以上から測れる最短の窓。2 歩 (12 時間) だと、ばらつきは 2 つの歩幅の差 1 つだけで決まってしまう。データから窓を自動で選ぶ方法 (Pe の時間変化の折れ目を読む) も試したが、どの時刻でも 12 時間に張り付いて使えなかった。
+
+---
+
+### スカログラムの読み方
+
+<svg class="diagram" viewBox="0 0 800 300" width="600" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<line x1="120" y1="40" x2="760" y2="40" stroke="#999" stroke-width="2"/>
+<g fill="#555"><circle cx="140" cy="40" r="5"/><circle cx="180" cy="40" r="5"/><circle cx="220" cy="40" r="5"/><circle cx="260" cy="40" r="5"/><circle cx="300" cy="40" r="5"/><circle cx="340" cy="40" r="5"/><circle cx="380" cy="40" r="5"/><circle cx="420" cy="40" r="5"/><circle cx="460" cy="40" r="5"/><circle cx="500" cy="40" r="5"/><circle cx="540" cy="40" r="5"/><circle cx="580" cy="40" r="5"/><circle cx="620" cy="40" r="5"/><circle cx="660" cy="40" r="5"/><circle cx="700" cy="40" r="5"/><circle cx="740" cy="40" r="5"/></g>
+<text x="110" y="46" font-size="18" fill="#555" text-anchor="end">6 h ごと</text>
+<line x1="360" y1="22" x2="360" y2="100" stroke="#111" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="360" y="16" font-size="18" fill="#111" text-anchor="middle">中心の時刻</text>
+<path d="M 300 58 L 300 66 L 420 66 L 420 58" fill="none" stroke="#1b7837" stroke-width="4"/>
+<text x="430" y="72" font-size="18" fill="#1b7837">18 h の窓 (3 歩)</text>
+<path d="M 240 84 L 240 92 L 480 92 L 480 84" fill="none" stroke="#762a83" stroke-width="4"/>
+<text x="490" y="98" font-size="18" fill="#762a83">36 h の窓 (6 歩)</text>
+<g fill="#f2f2f2" stroke="#ccc" stroke-width="1">
+<rect x="120" y="120" width="640" height="36"/><rect x="120" y="156" width="640" height="36"/><rect x="120" y="192" width="640" height="36"/><rect x="120" y="228" width="640" height="36"/>
+</g>
+<g stroke="#ccc" stroke-width="1"><line x1="160" y1="120" x2="160" y2="264"/><line x1="200" y1="120" x2="200" y2="264"/><line x1="240" y1="120" x2="240" y2="264"/><line x1="280" y1="120" x2="280" y2="264"/><line x1="320" y1="120" x2="320" y2="264"/><line x1="360" y1="120" x2="360" y2="264"/><line x1="400" y1="120" x2="400" y2="264"/><line x1="440" y1="120" x2="440" y2="264"/><line x1="480" y1="120" x2="480" y2="264"/><line x1="520" y1="120" x2="520" y2="264"/><line x1="560" y1="120" x2="560" y2="264"/><line x1="600" y1="120" x2="600" y2="264"/><line x1="640" y1="120" x2="640" y2="264"/><line x1="680" y1="120" x2="680" y2="264"/><line x1="720" y1="120" x2="720" y2="264"/></g>
+<rect x="340" y="228" width="40" height="36" fill="none" stroke="#1b7837" stroke-width="4"/>
+<rect x="340" y="120" width="40" height="36" fill="none" stroke="#762a83" stroke-width="4"/>
+<g font-size="18" fill="#555" text-anchor="end"><text x="110" y="144">36 h</text><text x="110" y="180">30 h</text><text x="110" y="216">24 h</text><text x="110" y="252">18 h</text></g>
+<text x="440" y="292" font-size="18" fill="#555" text-anchor="middle">窓の中心の時刻 → (6 時間ずつずらす)</text>
+</svg>
+
+<div class="simple-box dense">
+
+* **1 マス = 1 つの窓** (横: 中心の時刻、縦: 窓の長さ)
+* 色: そのマスの $\log_{10} (\mathrm{Pe}^{\mathrm{member}} / \mathrm{Pe}^{\mathrm{obs}})$ の全メンバーの中央値
+  * <span style="color: #2166ac;"><b>青</b></span>: メンバーのほうがまっすぐ / <span style="color: #b2182b;"><b>赤</b></span>: メンバーのほうがうろうろ / 白: 観測と同じ
+* **縦に同じ色が続く** = 窓の長さによらない。1 段だけの色 = その長さでだけ見える揺れ
+
+</div>
+
+Note: 名前はウェーブレット解析の「時刻 × スケール」の図 (スカログラム) から借りた。本来はウェーブレット変換の係数を描く図。ここではウェーブレットではなく、長さの違う移動窓を同じ並べ方で描いている。パラメータを 1 つ選ぶかわりに、パラメータへの依存性ごと見せるための図。
+
+---
+
+### 停滞のスカログラム
+
+<img src="assets/images/wiki/2026-10-19-directedness.png" height="440px" style="box-shadow: none;">
+
+<p class="caption">色: その窓に値がある全メンバー (5 回 × 8 本) の中央値。赤: メンバーのほうがうろうろ / 青: まっすぐ</p>
+
+Note: 値があるメンバーが 40 本の半数に満たない窓は描いていない。両端が階段状に欠けているのは、長い窓ほど中心を端に寄せられないため。クロヴァンの 09-04 の濃い青は「メンバーがとてもまっすぐ」ではなく、「嵐が止まって観測の Pe が小さくなったのに、メンバーはまっすぐのまま」という意味。色は比なので、どちらが変わったかは分母と分子の両方を見て読む。
+
+---
+
+### 嵐が止まった日、メンバーは走っていた
+
+<div class="simple-box dense">
+
+* **クロヴァン**: 09-04 12Z までは**ほぼ青** (メンバーのほうがまっすぐ)、09-04 18Z からは**赤** (30 マス中 28、メンバーの中央値 69% が観測を下回る)
+  * 嵐が止まった 09-04 にメンバーは進み続け、**嵐が動き出してから鈍った**
+* **ドゥージェン**: ほぼ観測どおり。曲線を重ねるずれは −12〜−18 h = 時計と同じ「半日早い」
+* **ペイパー**: まっすぐな北上 (09-03〜04) で、メンバーのほうがうろうろ
+
+</div>
+
+<br>
+
+<div class="highlight-box dense">
+
+限界: 停滞もループも Pe を下げる。この 2 つは区別できない
+
+</div>
+
+---
+
+### ほかに分かったこと (1): 追跡は「渦」を追う
+
+<div class="figure-crop" style="width: 500px; margin: 0 auto; aspect-ratio: 1360 / 820;"><img src="assets/images/wiki/2026-10-17-track-ends.png" style="margin-top: -4.41%;"></div>
+
+<div class="simple-box dense">
+
+* 熱帯の期間の終わりと比べると、クロヴァンのメンバーは中央値で **75 時間長生き**
+* でも追跡は渦を追う。**消滅 (09-10) と比べると 3 時間遅れ**
+* 熱帯の期間中に見失ったのは少数: 40 本中 4、39 本中 3、32 本中 1
+
+</div>
+
+---
+
+### ほかに分かったこと (2): アンサンブルは自信過剰
+
+<div class="simple-box">
+
+* 誤差がばらつきの何倍か: クロヴァン 1.6–2.6、ドゥージェン 1.5–3.2、ペイパー 1.0–1.8
+* 3 つとも**ばらつき不足**。台風の性質ではなく、実験の作りの性質
+* 初期値が 8 本とも同じなので、ばらつきはゼロから育つ
+
+</div>
+
+<div class="highlight-box">
+
+実際の予報では初期値の不確かさも混ぜる。今回は**わざと混ぜていない**
+
+</div>
+
+---
+
+### 外れた仮説
+
+<div class="simple-box dense">
+
+* 9 月の段階: 「台風になる**前**から予報すると素通りするメンバーがいるのに、**後**からだと消える」ように見えた
+* そのときの定義: 「この箱の中で 24 時間に 300 km 未満なら停滞」
+  * → **遅いがまっすぐ**も停滞に数えていた
+* Péclet 数で測り直すと**再現しない** (窓と基準を 12 通り変えても、増減の向きがそろわない)
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+測り方を先に決めて書き残し、**追加のメンバーで独立に確かめる**
+
+</div>
+
+---
+
+### 今の作業仮説
+
+<div class="simple-box">
+
+* 指向流が**強い**区間 (ドゥージェン・ペイパーの転向後)
+  * → **道は決まり、時計がずれる**
+* 指向流が**弱い**区間 (クロヴァンの停滞)
+  * → **道そのものが決まらず**、メンバーが別々の道を選ぶ
+
+</div>
+
+<br>
+
+<div class="highlight-box">
+
+まだ**仮説**。確かめるには、予報の中の**指向流のばらつき**を測る必要がある
+
+</div>
+
+---
+
+### この結果で言えないこと
+
+<div class="simple-box">
+
+* 台風 3 つ、1 回 8 本、モデル 1 つ。開始時刻 5 つは独立な標本ではない
+* 初期値は再解析 → **実際の予報の成績ではない**
+* 2026 年の 2 つは気象庁の**速報値**と比べている → 確定値で計算し直す
+* 割合は「まだ追跡できているメンバー」に対して
+
+</div>
+
+---
+
+### まとめ
+
+<div class="simple-box">
+
+1. WeatherNext 2 は対照の 2 つの台風の**道**をよく再現した。迷走したクロヴァンでは**道が割れ、誰もループしなかった**
+2. km の誤差だけでは台風を比べられない。**道と時計**に分けると、ドゥージェンは「正しい道を半日早く」、クロヴァンは「停滞で道が割れた」
+3. 停滞は **Péclet 数**で測れる。**嵐が止まった日にメンバーは走り、動き出してから鈍った**
+
+</div>
+
+<p class="caption">数字はすべて暫定値 (気象庁の速報値ベース)</p>
+
+---
+
+### クレジット
+
+<div class="simple-box dense">
+
+* 予報: **WeatherNext 2**, Google DeepMind (CC BY 4.0)
+* 初期値: **ERA5**, Copernicus Climate Change Service
+* 台風の経路: **気象庁** 台風位置表 (速報値・確定値)
+* 地図: Natural Earth / © OpenStreetMap contributors
+* コードと Wiki: [github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh](https://github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh) (Apache-2.0)
+
+</div>
+
+---
+
+### LT登壇者の募集
+
+<div class="simple-box">
+
+* 物理学集会ではLT登壇者を募集しています！
+  * どんなジャンルでもOK！
+* 興味のある方は物理学集会のDiscordサーバーまで！
+
+</div>
+
+<img src="assets/images/qrcode.png" width="200px">
+
+---
+
+## Appendix
+
+---
+
+### Appendix: 時間伸縮 (DTW) を使わなかった理由
+
+<div class="simple-box dense">
+
+* DTW: 予報の各点を観測の経路の一区間に、順序を保って対応づける。時計と形が 1 回で出る…はず
+* 道の上にいるメンバー: 最寄り点の時計と一致 (ドゥージェン: 順位相関 0.95、99% が 6 h 以内)
+* 道を外れたメンバー: **どの終わり方でも人工物**が出る
+  * 経路の終点に縛る → 尾が終点に引かれて「先行」
+  * 終点を自由にする → 尾が 1 点に張りつき −1 h/h で「遅れ」(132 h で −75 h)
+* 200 km 以内に限ると、最寄り点の時計と同じになる → **整列は何も足さない**
+
+</div>
+
+---
+
+### Appendix: 開始時刻による差
+
+<div class="simple-box">
+
+* 「開始が遅いほど良くなる」という単調な傾向はない
+* 最初の 2 日はどの回も 70–120 km (ERA5 の位置のずれ 23–110 km と同じくらい)
+* どの回も 09-05 00Z (停滞とループ) に 400–670 km へ跳ねる
+* 8 本・1 台風では、開始時刻の効果は解析のノイズに埋もれる
+
+</div>
+
+---
+
+### Appendix: 台風の「発生」の時刻
+
+<div class="simple-box">
+
+* 12 時間前からの予報: 8 本中 7 本が、開始 6 時間後にはもう渦を見つけている
+* 速報値の「発生」は**台風への昇格**、追跡は**どんな閉じた渦でも**拾う
+  * → 今は「渦の検出」と「昇格」の比較になっている
+* 確定値で熱帯低気圧の行が入れば、比べ直せる
+
+</div>
+
+---
+
+### Appendix: ランダムウォークなら 1.33
+
+<div class="simple-box dense">
+
+歩幅 $\Delta \mathbf{x}_{i}$ が独立で平均 0、$\langle \lvert \Delta \mathbf{x} \rvert^{2} \rangle = s^{2}$ のとき
+
+<div>
+$$ \left\langle \left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2} \right\rangle = n s^{2}, \qquad \left\langle \sum_{i=1}^{n} \left\lvert \Delta \mathbf{x}_{i} - \overline{\Delta \mathbf{x}} \right\rvert^{2} \right\rangle = (n - 1) s^{2} $$
+</div>
+
+なので、期待値の比は $n / (n - 1)$ (4 歩なら 1.33)
+
+</div>
+
+<div class="highlight-box">
+
+台風はランダムウォークではないので、この値は基準に使わなかった
+
+</div>
+
+---
+
+### Appendix: 異常拡散の指数も試した
+
+<div class="simple-box">
+
+* 平均二乗変位 $\mathrm{MSD}(\tau) \propto \tau^{\alpha}$ の $\alpha$ なら、停滞 (閉じ込め) とループ (回転) を区別できる…かもしれない
+* 6 時間ごとの位置、1〜2 日の窓では、観測も含めて**どの経路も 1.5–1.9**
+* クロヴァンのループそのものでも 1.63
+* → 6 時間おきのデータでは分解能が足りない
+
+</div>
+
+---
+
+### Appendix: 追跡プログラムの癖
+
+<div class="simple-box">
+
+* 2.5 日 (60 時間) より短い経路は消される
+* ペイパーは台風の期間が 72 時間しかなく、転向の前後で経路が切れると消える
+  * 選ばれたのは 5 回それぞれ 8 本中 5, 8, 5, 8, 6 本
+  * 消える制限を外して追い直すと、**全員が台風を持っていた**
+* → 足りないのは追跡プログラムで、モデルではない
+
+</div>
+
+---
+
+### Appendix: 計算の中身と費用
+
+<div class="simple-box dense">
+
+* GPU: NVIDIA H100 PCIe (80 GB) をクラウドで時間借り
+  * Runpod を利用、1 時間あたり約 2.9 USD (全部込みの目安)
+* 0.25° (約 25 km)、6 時間 × 40 ステップ
+* コンパイル約 4 分 (1 プロセスに 1 回)、その後 1 本 194–204 秒
+* メモリは最大 66 GB (小さい GPU では足りない)
+* 地球全体の予報場は 1 本 17.1 GB、ほぼ圧縮できない (1.09 倍)
+  * → 追跡に要る量だけ残し、台風の周りを切り出して保存
+* 保存量: 1 回 8 本で 2.3 GB (クロヴァン) 〜 5.5 GB (ドゥージェン)
+* 120 本で **約 30 USD**
+
+</div>
+
+---
+
+### 参考文献
+
+<div class="simple-box ref-list">
+
+* R. Lam et al., "Learning skillful medium-range global weather forecasting", Science 382, 1416 (2023)
+* I. Price et al., "Probabilistic weather forecasting with machine learning", Nature 637, 84 (2025)
+* F. Alet et al., "Skillful joint probabilistic weather forecasting from marginals", arXiv:2506.10772 (2025)
+* H. Hersbach et al., "The ERA5 global reanalysis", Q. J. R. Meteorol. Soc. 146, 1999 (2020)
+* 気象庁, 台風位置表 (T2624, T2625: 速報値 / T2515: 確定値)
+* google-deepmind/weathernext v0.3.0 (付属の台風追跡プログラム)
+
+</div>
+
+        </textarea>
+      </section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      hash: true,
+
+      // KaTeX: load from a locally vendored copy (offline-safe; no CDN at talk time).
+      katex: {
+        local: 'vendor/katex'
+      },
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+    });
+
+  </script>
+</body>
+
+</html>

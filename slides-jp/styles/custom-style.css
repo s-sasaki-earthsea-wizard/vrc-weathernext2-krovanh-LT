@@ -1,0 +1,405 @@
+/*********************************************
+ * Customized styles 
+*********************************************/
+.reveal .slides section {
+    max-width: 90%;
+}
+
+.caption {
+    font-size: 0.7em;
+    color: #666;
+    margin-top: -20px;
+}
+
+/* 2カラムレイアウトの調整 */
+.container {
+    display: flex;
+    width: 100%;
+    padding-left: 0;
+    margin-left: -2%;
+    margin-right: -2%;
+    gap: 45px;
+}
+  
+.col {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+}
+
+.col-left {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+    margin-left: -5%;
+    font-size: 0.9em;
+}
+
+.col-right {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+    margin-right: -5%;
+    font-size: 0.9em;
+}
+
+.col-image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.col-box {
+    background-color: #f8f9fa;
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid #0084ff;
+}
+
+.col-box-left {
+    background-color: #f8f9fa;
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid #0084ff;
+    margin-left: -5%;
+    font-size: 0.9em;
+}
+
+.col-box-right {
+    background-color: #f8f9fa;
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid #0084ff;
+    margin-right: -5%;
+    font-size: 0.9em;
+}
+
+.code-block {
+    background: #002b36;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    margin: 10px 0;
+    text-align: left;
+    font-size: 0.8em;
+}
+
+.col-code-block-left {
+    background: #002b36;
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    margin: 10px 0;
+    text-align: left;
+    font-size: 0.75em;
+    margin-left: 0%;
+}
+
+.col-code-block-right {
+    background: #002b36;
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    margin: 10px 0;
+    text-align: left;
+    font-size: 0.75em;
+    margin-right: -20%;
+}
+
+.col-message-block-right {
+    background: #ffffff;
+    flex: 1;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    text-align: left;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85em;
+    line-height: 1.6;
+    border: 1px solid #e1e4e8;
+    margin-right: -20%;
+    color: #24292e;
+}
+
+.col-message-block-left {
+    background: #ffffff;
+    flex: 1;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    text-align: left;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85em;
+    line-height: 1.6;
+    border: 1px solid #e1e4e8;
+    margin-left: -20%;
+    color: #24292e;
+}
+
+.reveal .slides .profile-container {
+    display: flex;
+    width: 100%;
+    gap: 125px;
+}
+
+/* プロフィールカード用のカラム */
+.reveal .slides .profile-left {
+    flex: 10;
+    background-color: #f8f9fa;
+    border-radius: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 180%;
+    text-align: left;
+    font-size: 28px;
+    margin-left: 0%;
+    margin-right: -10%;
+    padding: 20px 20px;
+    position: relative;
+    border: 2px solid #FFFFFF;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* アバター画像用のカラム */
+.reveal .slides .profile-right {
+    flex: 10;
+    display: flex;
+    align-items: center; 
+    position: relative;
+    margin-right: -10%;
+}
+
+.highlight-box {
+    background-color: #f8f9fa;
+    border-left: 16px solid #0084ff;
+    padding: 5px;
+    padding-left: 15px;
+    text-align: left;
+    width: 110%;
+    margin-left: -5%;
+}
+
+.simple-box {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 10px;
+    padding-left: 10px;
+    margin-left: -5%;
+    padding-right: 10px;
+    margin-right: 0%;
+    gap: 15px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+}
+
+/* 2カラムレイアウト用スタイル */
+.two-column {
+    display: flex;
+    width: 110%;
+    margin-left: -5%;
+    gap: 30px;
+}
+
+.column-left {
+    flex: 1;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.column-right {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* チャート用コンテナ */
+.chart-container {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 15px;
+    margin-left: -5%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 2px solid #28a745;
+}
+
+/* 手法比較用スタイル */
+.method-comparison {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 15px;
+    margin-left: -5%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 2px solid #17a2b8;
+}
+
+/* 結果表示用スタイル */
+.results-box {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 15px;
+    margin-left: -5%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 2px solid #dc3545;
+}
+
+/* 輸送メカニズム用スタイル */
+.transport-mechanism {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 15px;
+    margin-left: -5%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 2px solid #fd7e14;
+}
+
+/* 影響分析用スタイル */
+.impact-analysis {
+    background-color: #f8f9fa;
+    width: 110%;
+    padding: 15px;
+    margin-left: -5%;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 2px solid #6f42c1;
+}
+
+/*********************************************
+ * Tables inside boxes (compact, full width)
+ *********************************************/
+.reveal .results-box table,
+.reveal .simple-box table {
+    font-size: 0.72em;
+    margin: 6px 0;
+    width: 100%;
+}
+
+.reveal .results-box table th,
+.reveal .results-box table td,
+.reveal .simple-box table th,
+.reveal .simple-box table td {
+    padding: 5px 10px;
+    line-height: 1.35;
+}
+
+.reveal .nowrap-table table th,
+.reveal .nowrap-table table td {
+    white-space: nowrap;
+}
+
+/* Center the cells of a grid of dots (count x work tables). */
+.reveal .grid-table table th,
+.reveal .grid-table table td {
+    text-align: center;
+    padding: 2px 10px;
+    line-height: 1.2;
+}
+
+/* Fit a long reference list on one slide. */
+.reveal .ref-list {
+    font-size: 0.75em;
+}
+
+/* Keep a gap when a box follows another box without a <br>. */
+.reveal .simple-box + .highlight-box,
+.reveal .results-box + .highlight-box,
+.reveal .simple-box + .results-box,
+.reveal .results-box + .simple-box {
+    margin-top: 16px;
+}
+
+/*********************************************
+ * Show one panel of a multi-panel figure
+ *
+ * Usage: set the panel height with aspect-ratio on the wrapper and the
+ * panel top with a negative percentage margin-top on the image. Both are
+ * fractions of the source image width, so the crop scales with the slide.
+ *********************************************/
+.reveal .slides section .figure-crop {
+    overflow: hidden;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.reveal .slides section .figure-crop img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+}
+
+/*********************************************
+ * Additions for the Krovanh talk
+ *********************************************/
+
+/* Denser text for slides that carry a table or several bullets. */
+.reveal .dense {
+    font-size: 0.78em;
+}
+
+/* Keep the row labels of a comparison table on one line. */
+.reveal .nowrap-first table td:first-child,
+.reveal .nowrap-first table th:first-child {
+    white-space: nowrap;
+}
+
+/* Smaller captions under side-by-side figures. */
+.reveal .caption.small {
+    font-size: 0.55em;
+    margin-top: 0;
+}
+
+/* A crop that also cuts horizontally: set the wrapper width and
+ * aspect-ratio, and the image width, margin-left and margin-top, all as
+ * fractions of the crop width (see docs/talk_outline.md, "Figures"). */
+.reveal .slides section .figure-crop.figure-crop-2d {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Inline SVG diagrams drawn in the slide itself. */
+.reveal .slides section svg.diagram {
+    display: block;
+    margin: 6px auto;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Credit line under a figure. */
+.reveal .credit {
+    font-size: 0.42em;
+    color: #555;
+    margin-top: 2px;
+    text-align: right;
+}
+
+/* Mark a slide that may be cut for time. */
+.reveal .optional-tag {
+    font-size: 0.45em;
+    color: #b35c00;
+    vertical-align: middle;
+}
