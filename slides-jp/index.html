@@ -109,7 +109,7 @@ Note: 「方程式を解くかわりに」は、数値予報との違いを一�
 
 <div class="figure-crop figure-crop-2d" style="width: 400px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
 
-<p class="credit">気象庁 台風位置表 (速報値)</p>
+<p class="credit">気象庁「台風位置表」(速報値) を加工して作成</p>
 
 </div>
 </div>
@@ -178,9 +178,9 @@ Note: ここで「外れた」と言い切らない。この先で「何がど�
 
 * **初期値: ERA5** (ヨーロッパの再解析データ)
   * 過去の観測を総動員して作り直した、地球の大気の状態
-  * 空間分解能: 35km, 時間分解能: 1時間
+  * 約 31 km (0.25° の格子で配布)、1 時間ごと
 * **モデル: WeatherNext 2** (Google DeepMind)
-  * 約 25 km の格子、6 時間ずつ 40 回 = **10 日先まで**
+  * 0.25° (約 25 km) の格子、6 時間 × 40 回 = **10 日先まで**
   * 学習は 2024 年まで。今日の台風はどれも**学習の外**
   * 後継のWeatherNext 3が発表されているが、モデルは一般には未公開
 
@@ -197,7 +197,7 @@ Note: ERA5 の速報版 (ERA5T) を使っている。ARCO-ERA5 は数か月遅�
 
 ---
 
-### アンサンブル: 合計で8回予報する
+### アンサンブル: 1 回の予報で 8 本
 
 <div class="simple-box">
 
@@ -261,7 +261,7 @@ Note: ペイパーは台風だった期間が 42 時間しかないので、開�
 </div>
 </div>
 
-<p class="credit">気象庁 台風位置表 (ドゥージェン: 速報値、ペイパー: 確定値)</p>
+<p class="credit">気象庁「台風位置表」(ドゥージェン: 速報値、ペイパー: 確定値) を加工して作成</p>
 
 ---
 
@@ -377,11 +377,11 @@ Note: 見た目では、対照の 2 つはクロヴァンよりずっと良い�
 
 <div class="highlight-box dense">
 
-台風の針路を予測できていそうに見えるドゥージェンの方がクロヴァンよりも**渦の中心位置の実測との残差は大きい**
+台風の針路を予測できていそうに見えるドゥージェンのほうが、100 時間より先では**クロヴァンよりも位置の誤差が大きい**
 
 </div>
 
-Note: 上: 1 本ずつの誤差の平均 (各台風 40 本)。下: 観測の位置から 200 km 以内にいる割合。
+Note: 上: 1 本ずつの誤差の平均 (5 回分をまとめて、クロヴァン 40 本、ドゥージェン 39 本、ペイパー 32 本まで)。下: 観測の位置から 200 km 以内にいる割合。72 時間ではペイパー (257 km) とクロヴァン (256 km) が並ぶ。
 
 ---
 
@@ -463,7 +463,7 @@ Note: 進行方向に沿った「前後・左右」に分ける普通のやり�
 
 <div class="figure-crop figure-crop-2d" style="width: 380px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
 
-<p class="credit">気象庁 台風位置表 (速報値)</p>
+<p class="credit">気象庁「台風位置表」(速報値) を加工して作成</p>
 
 </div>
 </div>
@@ -799,9 +799,9 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 <div class="simple-box dense">
 
-* 予報: **WeatherNext 2**, Google DeepMind (CC BY 4.0)
-* 初期値: **ERA5**, Copernicus Climate Change Service
-* 台風の経路: **気象庁** 台風位置表 (速報値・確定値)
+* 予報: **WeatherNext 2**, Google DeepMind (CC BY 4.0)。チェックポイント `WeatherNext2_<2025_model1` から台風の経路を取り出して作図
+* 初期値: **ERA5**。Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.
+* 台風の経路: 出典：**気象庁**ホームページ「台風位置表」([https://www.data.jma.go.jp/typhoon/position_table/](https://www.data.jma.go.jp/typhoon/position_table/)) を加工して作成 (速報値・確定値)
 * 地図: Natural Earth / © OpenStreetMap contributors
 * コードと Wiki: [github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh](https://github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh) (Apache-2.0)
 
@@ -908,7 +908,7 @@ $$ \left\langle \left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2
 <div class="simple-box">
 
 * 2.5 日 (60 時間) より短い経路は消される
-* ペイパーは台風の期間が 72 時間しかなく、転向の前後で経路が切れると消える
+* ペイパーは熱帯低気圧の期間を含めても 72 時間しかなく (台風としては 42 時間)、転向の前後で経路が切れると消える
   * 選ばれたのは 5 回それぞれ 8 本中 5, 8, 5, 8, 6 本
   * 消える制限を外して追い直すと、**全員が台風を持っていた**
 * → 足りないのは追跡プログラムで、モデルではない
