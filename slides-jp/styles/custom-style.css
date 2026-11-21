@@ -316,6 +316,11 @@
     border-bottom: none;
 }
 
+/* Keep a number and its unit (or a date) on one line. */
+.reveal .nowrap {
+    white-space: nowrap;
+}
+
 /* Keep the row labels of a comparison table on one line. */
 .reveal .nowrap-first table td:first-child,
 .reveal .nowrap-first table th:first-child {
