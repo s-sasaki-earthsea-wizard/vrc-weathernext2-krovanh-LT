@@ -48,20 +48,25 @@ VRChat 物理学集会の発表資料 — **迷走台風を AI は予報でき�
 
 ## 開発環境
 
-- Node.js 18 以上 (reveal.js 5.x の要求)
-- 必要に応じて [decktape](https://github.com/astefanutti/decktape) (PDF エクスポート用)
+- Python 3 (`make serve` でスライドを配信する)。reveal.js はビルド済みの `slides-jp/dist/` を同梱しているので、見るだけなら Node.js は要らない
+- 必要に応じて [decktape](https://github.com/astefanutti/decktape) (PDF エクスポート用、Node.js が要る)
 
 ## 使い方
 
 ### スライドのプレビュー
 
 ```bash
-cd slides-jp
-npm install
-npm start
+make serve
 ```
 
-ブラウザで <http://localhost:8000> にアクセスする。
+ブラウザで <http://localhost:8000> を開く。止めるときは Ctrl-C。
+ポートは `make serve PORT=8080` で変えられる。同じネットワークの別の端末から見るときは `HOST=0.0.0.0` を付ける。
+
+ただの静的サーバーなので、`index.html` を変えたらブラウザで再読み込みする (URL にスライドの番号が入るので、見ていたスライドに戻る)。
+CSS や画像が古いままに見えるときは Cmd+Shift+R で読み直す。
+
+reveal.js の `npm start` (gulp serve) は Node.js 26 では起動しない。
+yargs 17 の拡張子のない `yargs/yargs` が ES module として読まれ、`require is not defined in ES module scope` で落ちる (2026-11-21、v26.12.1 で確認)。
 
 ### フォントのサブセットを作り直す
 
