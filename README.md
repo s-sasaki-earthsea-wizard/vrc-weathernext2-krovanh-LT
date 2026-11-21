@@ -1,7 +1,7 @@
 # vrc-weathernext2-krovanh-LT
 
-VRChat 物理学集会の発表資料 — **迷走台風を AI は予報できるか？
-〜WeatherNext 2 で台風 24 号クロヴァンを追う (中間報告)〜**
+VRChat 物理学集会の発表資料 — **天気予報AIは迷走台風を予測できるか？
+〜沖縄を迷走した台風 24 号クロヴァンを追う〜**
 
 スライド本体は [reveal.js](https://github.com/hakimel/reveal.js) で構成し、
 [lt-slide-template](https://github.com/s-sasaki-earthsea-wizard/lt-slide-template) をベースにしている。

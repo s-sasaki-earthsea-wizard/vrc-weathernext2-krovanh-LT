@@ -206,7 +206,7 @@
     position: relative;
     counter-increment: summary;
     margin: 0;
-    padding: 18px 0 18px 72px;
+    padding: 10px 0 10px 72px;
     border-bottom: 1px solid var(--atlas-rule);
     font-size: 32px;
     line-height: 1.5;
@@ -216,7 +216,7 @@
     content: counter(summary);
     position: absolute;
     left: 0;
-    top: 16px;
+    top: 8px;
     font-family: var(--r-heading-font);
     font-weight: 800;
     font-size: 56px;
@@ -314,6 +314,11 @@
 .reveal .results-box table tr:last-child td,
 .reveal .simple-box table tr:last-child td {
     border-bottom: none;
+}
+
+/* Keep a number and its unit (or a date) on one line. */
+.reveal .nowrap {
+    white-space: nowrap;
 }
 
 /* Keep the row labels of a comparison table on one line. */

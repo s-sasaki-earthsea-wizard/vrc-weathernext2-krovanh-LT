@@ -2,7 +2,7 @@
 
 ## 概要
 
-VRChat 物理学集会「迷走台風を AI は予報できるか？」のスライド。構成と出典は `../docs/talk_outline.md`。
+VRChat 物理学集会「天気予報AIは迷走台風を予測できるか？」のスライド。構成と出典は `../docs/talk_outline.md`。
 
 ## 開発環境
 
