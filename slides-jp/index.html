@@ -225,7 +225,7 @@ Note: ERA5 の速報版 (ERA5T) を使っている。ARCO-ERA5 は数か月遅�
 
 <div class="highlight-box">
 
-今回は 8 本とも**初期値は同じ ERA5**。ばらつきはゼロから育つ (あとで効いてくる)
+今回は 8 本とも**初期値は同じ ERA5**。ばらつきはゼロから育つので、実際の誤差より小さめに出る (Appendix)
 
 </div>
 
@@ -504,38 +504,26 @@ Note: 進行方向に沿った「前後・左右」に分ける普通のやり�
 
 ---
 
-### ループする道では時計が読めない
+### 道と時計で見ると
 
 <div class="two-column">
-<div class="column-left dense">
+<div class="column-figure">
+<div class="figure-crop" style="width: 520px; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-road-and-clock.png" style="margin-top: -7.03%;"></div>
+<p class="caption small">上: 道の上にいる割合<br>下: 道の上のメンバーの時計 (中央値と四分位、+ = 先行)</p>
+</div>
+<div class="column-text">
 
-<div class="simple-box">
+<div class="simple-box dense">
 
-* クロヴァンの経路は**自分と交差する**
-* 数日離れた 2 回の通過が、同じくらい近くなる
-* だから時計は**ループの始まりまで**しか読まない
+* クロヴァンの時計は**ループの始まり**まで
   * 最北点 29.8°N 127.4°E、09-04 06Z
+* ループする経路は**自分と交差する**。数日離れた 2 回の通過が、同じくらい近くなる
 * 道からの距離は経路全体で測る (ループは面を覆うので甘め)
 
 </div>
 
 </div>
-<div class="column-right">
-
-<div class="figure-crop figure-crop-2d" style="width: 380px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
-
-<p class="credit">気象庁「台風位置表」(速報値) を加工して作成</p>
-
 </div>
-</div>
-
----
-
-### 道と時計で見ると
-
-<div class="figure-crop" style="width: 556px; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-road-and-clock.png" style="margin-top: -7.03%;"></div>
-
-<p class="caption">上: 道の上にいる割合 / 下: 道の上のメンバーの時計 (中央値と四分位、+ = 先行)</p>
 
 ---
 
@@ -764,7 +752,7 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 <!-- .slide: data-chapter="まとめ" -->
 
-### ほかに分かったこと (1): 追跡は「渦」を追う
+### ほかに分かったこと: 追跡は「渦」を追う
 
 <div class="two-column">
 <div class="column-figure">
@@ -781,24 +769,6 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 </div>
 
 </div>
-</div>
-
----
-
-### ほかに分かったこと (2): アンサンブルは自信過剰
-
-<div class="simple-box">
-
-* 誤差がばらつきの何倍か: クロヴァン 1.6–2.6、ドゥージェン 1.5–3.2、ペイパー 1.0–1.8
-* 3 つとも**ばらつき不足**。台風の性質ではなく、実験の作りの性質
-* 初期値が 8 本とも同じなので、ばらつきはゼロから育つ
-
-</div>
-
-<div class="highlight-box">
-
-実際の予報では初期値の不確かさも混ぜる。今回は**わざと混ぜていない**
-
 </div>
 
 ---
@@ -930,6 +900,24 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 * 最初の 2 日はどの回も 70–120 km (ERA5 の位置のずれ 23–110 km と同じくらい)
 * どの回も 09-05 00Z (停滞とループ) に 400–670 km へ跳ねる
 * 8 本・1 台風では、開始時刻の効果は解析のノイズに埋もれる
+
+</div>
+
+---
+
+### Appendix: アンサンブルは自信過剰
+
+<div class="simple-box">
+
+* 誤差がばらつきの何倍か: クロヴァン 1.6–2.6、ドゥージェン 1.5–3.2、ペイパー 1.0–1.8
+* 3 つとも**ばらつき不足**。台風の性質ではなく、実験の作りの性質
+* 初期値が 8 本とも同じなので、ばらつきはゼロから育つ
+
+</div>
+
+<div class="highlight-box">
+
+実際の予報では初期値の不確かさも混ぜる。今回は**わざと混ぜていない**
 
 </div>
 
