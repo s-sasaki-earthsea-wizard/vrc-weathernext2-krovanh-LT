@@ -640,6 +640,8 @@ $$ \mathrm{Pe} = \frac{\left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\r
 
 </div>
 
+Note: Péclet 数と呼ぶ理由: 一定のドリフトに拡散が乗った動きなら、分子と分母の期待値の比は古典的な Péclet 数 UL/D の単調関数になる (Appendix)。期待値の比であって、比の期待値ではない。
+
 ---
 
 ### 仮定を足さない (1): 何と比べるか
@@ -936,23 +938,27 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 ---
 
-### Appendix: ランダムウォークなら 1.33
+### Appendix: なぜ Péclet 数と呼ぶか
 
 <div class="simple-box dense">
 
-歩幅 $\Delta \mathbf{x}_{i}$ が独立で平均 0、$\langle \lvert \Delta \mathbf{x} \rvert^{2} \rangle = s^{2}$ のとき
+1 歩を一定のドリフトと揺らぎに分ける (2 次元、揺らぎは独立で平均 0)
 
 <div>
-$$ \left\langle \left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2} \right\rangle = n s^{2}, \qquad \left\langle \sum_{i=1}^{n} \left\lvert \Delta \mathbf{x}_{i} - \overline{\Delta \mathbf{x}} \right\rvert^{2} \right\rangle = (n - 1) s^{2} $$
+$$ \Delta \mathbf{x}_{i} = \mathbf{U} \Delta t + \boldsymbol{\xi}_{i}, \qquad \langle \lvert \boldsymbol{\xi}_{i} \rvert^{2} \rangle = 4 D \Delta t $$
 </div>
 
-なので、期待値の比は $n / (n - 1)$ (4 歩なら 1.33)
+窓の長さ $T = n \Delta t$、そのあいだにドリフトで進む距離 $L = U T$ とおくと
+
+<div>
+$$ \frac{\langle \text{Pe の分子} \rangle}{\langle \text{Pe の分母} \rangle} =\frac{n^{2} U^{2} (\Delta t)^{2} + 4 n D \Delta t}{4 (n - 1) D \Delta t} = \frac{n}{n - 1} \left( 1 + \frac{U L}{4 D} \right) $$
+</div>
 
 </div>
 
-<div class="highlight-box">
+<div class="highlight-box dense">
 
-台風はランダムウォークではないので、この値は基準に使わなかった
+古典的な Péclet 数 $UL/D$ の単調関数。$U = 0$ (ランダムウォーク) なら ${n / (n - 1)}$ (4 歩で 1.33)。期待値の比で、比の期待値ではない。台風はこのモデルどおりに動かないので、基準には使わなかった
 
 </div>
 
