@@ -1,6 +1,6 @@
 # 構成案と数字の出典
 
-VRChat 物理学集会「迷走台風を AI は予報できるか？ 〜WeatherNext 2 で台風 24 号クロヴァンを追う (中間報告)〜」の
+VRChat 物理学集会「天気予報AIは迷走台風を予測できるか？ 〜沖縄を迷走した台風 24 号クロヴァンを追う〜」の
 ドラフト (2026-11-17、11-18 更新)。本編 39 枚、Appendix 9 枚 (区切りと参考文献を含む)。
 
 元プロジェクトは [WeatherNext2-typhoon-Krovanh](https://github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh)。
