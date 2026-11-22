@@ -64,6 +64,7 @@
 
 - ベース: [reveal.js](https://github.com/hakimel/reveal.js) 5.1.0
 - メインファイル: `slides-jp/index.html`
+- プレビューは `make serve` (<http://localhost:8000>、`python3 -m http.server`)。reveal.js の `npm start` (gulp serve) は Node.js 26 では起動しない
 - カスタムスタイル: `slides-jp/styles/custom-style.css` (「水彩の地図帳」テーマ。sky テーマの変数を上書きしている)
 - **1280×720 (16:9)。** 各スライドは flex の縦並びで、見出しが上、本文はフッターとのあいだで縦に中央寄せ。
   本文はフッター (上端 652 px) より上に収める。はみ出したら文を削るか図を小さくする (図のあるスライドは図を優先する)

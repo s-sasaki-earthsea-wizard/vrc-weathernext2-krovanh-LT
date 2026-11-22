@@ -7,23 +7,20 @@ VRChat 物理学集会「天気予報AIは迷走台風を予測できるか？�
 ## 開発環境
 
 [reveal.js](https://github.com/hakimel/reveal.js) によってスライドの作成をしています。
-Node.js, npmが利用できる環境で、以下のコマンドで開発環境の構築ができます: 
-
-```bash
-npm install
-```
+ビルド済みの `dist/` を同梱しているので、見るだけなら Node.js は要りません (Python 3 があれば足ります)。
 
 ## 使い方
 
 ### スライド作成
 
-以下のコマンドでローカルサーバーを起動:
+リポジトリ直下で、以下のコマンドでローカルサーバーを起動:
 
 ```bash
-npm start
+make serve
 ```
 
 ブラウザで [http://localhost:8000](http://localhost:8000) にアクセスすると、スライドをプレビューできます。
+reveal.js の `npm start` は Node.js 26 では起動しません (理由はリポジトリ直下の README)。
 
 ### スライドをpdfでエクスポート
 
