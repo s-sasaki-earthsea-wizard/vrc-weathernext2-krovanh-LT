@@ -883,7 +883,7 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 * 22 枚目は中央値。遅れは**全員**か、一部か
 * **形**: Chamfer 距離 (互いの最寄り点までの平均)。時刻は使わない
-* **時計のずれの増え方** $b$: 道の上の時計 (20 枚目) に引いた直線の傾き
+* **時計の変化率** $b$: 道の上の時計 (20 枚目) に引いた直線の傾き [h/h]
 
 <div>
 $$ b \approx \frac{v_{\text{予報}}}{v_{\text{観測}}} - 1 \quad \text{(同じ場所で)} $$
@@ -909,7 +909,7 @@ Note: 時計 c は、予報の位置の最寄り点を観測の台風が通っ�
 <div class="two-column">
 <div class="column-figure">
 <div class="figure-crop figure-crop-2d" style="width: 330px; aspect-ratio: 845 / 663;"><img src="assets/images/wiki/2026-10-19-shape-and-clock.png" style="width: 265.09%; margin-left: -165.09%; margin-top: -4.73%;"></div>
-<p class="caption small">1 点 = 1 本 / 横: 形 [km]<br>縦 (clock trend): 時計のずれの増え方 [h/h]<br>0 = 観測と同じ速さ、下ほど遅れが溜まる</p>
+<p class="caption small">1 点 = 1 本 / 横: 形 [km]<br>縦 (clock trend): 時計の変化率 [h/h]<br>0 = 観測と同じ速さ、下ほど遅れが溜まる</p>
 <p class="credit">WeatherNext 2 (Google DeepMind、CC BY 4.0)、ERA5 (Copernicus)、<br>気象庁「台風位置表」(速報値・確定値) を加工して作成</p>
 </div>
 <div class="column-text">
