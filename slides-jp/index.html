@@ -534,7 +534,7 @@ Note: 進行方向に沿った「前後・左右」に分ける普通のやり�
 <table>
 <tr><th></th><th>道</th><th>時計</th></tr>
 <tr><td>ドゥージェン</td><td>96 h でも 39 本中 38 本が道の上</td><td>転向後に <b>+14 h</b> (96 h、38 本中 31 本が先行)</td></tr>
-<tr><td>クロヴァン</td><td>66 h まで全員 → 停滞の時刻 (72–90 h) に約 6 割へ</td><td>ループの前から <b>8–12 h 遅れ</b></td></tr>
+<tr><td>クロヴァン</td><td>66 h まで全員 → 停滞の時刻 (72–90 h) に約 6 割へ</td><td>ループの前から <b>8–12 h 遅れ</b> (Appendix)</td></tr>
 <tr><td>ペイパー</td><td>66 h で 27 本中 22 本</td><td><b>±3 h</b> 以内</td></tr>
 </table>
 
@@ -547,45 +547,6 @@ Note: 進行方向に沿った「前後・左右」に分ける普通のやり�
 * クロヴァンは**道そのものが割れた**
 
 </div>
-
----
-
-### メンバー 1 本ずつ: 形と時計
-
-<div class="two-column">
-<div class="column-left dense">
-
-<div class="simple-box nowrap-first">
-
-* **形**: 観測の経路との Chamfer 距離 (互いの最寄り点までの距離の平均。時刻は使わない)
-* **時計の傾き**: 道に沿った速さの比 − 1
-
-<table>
-<tr><th>中央値</th><th>形</th><th>傾き</th></tr>
-<tr><td>クロヴァン</td><td>113 km</td><td>−0.32</td></tr>
-<tr><td>ドゥージェン</td><td>82 km</td><td>+0.16</td></tr>
-<tr><td>ペイパー</td><td>66 km</td><td>−0.02</td></tr>
-</table>
-
-</div>
-
-</div>
-<div class="column-right">
-
-<div class="figure-crop figure-crop-2d" style="width: 400px; aspect-ratio: 845 / 663;"><img src="assets/images/wiki/2026-10-19-shape-and-clock.png" style="width: 265.09%; margin-left: -165.09%; margin-top: -4.73%;"></div>
-
-<p class="caption small">横: 形 (Chamfer 距離、km) / 縦: 時計の傾き</p>
-
-</div>
-</div>
-
-<div class="highlight-box dense">
-
-形だけでは分けられない。**傾き**で分かれる: クロヴァンは 40 本**全員**が観測より遅い (道に沿って約 7 割の速さ)
-
-</div>
-
-Note: クロヴァンで大陸へ行った組と範囲内に留まった組は、形ではドゥージェン並み (中央値 73 km と 90 km、ドゥージェンの四分位は 61–100 km)。
 
 ---
 
@@ -876,6 +837,107 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 <!-- .slide: class="divider" data-chapter="Appendix" data-appendix="true" -->
 
 ## Appendix
+
+---
+
+### Appendix: 1 本ずつ測る (1): 2 つの物差し
+
+<div class="two-column">
+<div class="column-figure">
+<svg class="diagram" viewBox="0 0 440 326" width="440" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+<line x1="65" y1="15" x2="65" y2="262" stroke="#2E2A24" stroke-width="2"/>
+<line x1="65" y1="262" x2="432" y2="262" stroke="#2E2A24" stroke-width="2"/>
+<line x1="65" y1="90" x2="432" y2="90" stroke="#6A5A48" stroke-width="2" stroke-dasharray="6 6"/>
+<text x="55" y="98" font-size="24" fill="#2E2A24" text-anchor="end">0</text>
+<text x="65" y="288" font-size="24" fill="#2E2A24" text-anchor="middle">0</text>
+<text x="185" y="288" font-size="24" fill="#2E2A24" text-anchor="middle">24</text>
+<text x="305" y="288" font-size="24" fill="#2E2A24" text-anchor="middle">48</text>
+<text x="425" y="288" font-size="24" fill="#2E2A24" text-anchor="middle">72</text>
+<text x="245" y="318" font-size="24" fill="#2E2A24" text-anchor="middle">予報時間 [h]</text>
+<text transform="translate(26 140) rotate(-90)" font-size="24" fill="#2E2A24" text-anchor="middle">時計 [h]</text>
+<line x1="65" y1="83" x2="425" y2="244.3" stroke="#2E2A24" stroke-width="3"/>
+<polyline points="185,136.8 305,136.8 305,190.5" fill="none" stroke="#B9531D" stroke-width="3"/>
+<text x="245" y="128" font-size="24" fill="#B9531D" text-anchor="middle">24 h</text>
+<text x="313" y="172" font-size="24" fill="#B9531D">−7.7 h</text>
+<text x="425" y="32" font-size="24" font-weight="700" fill="#B9531D" text-anchor="end">傾き b = −7.7 / 24 = −0.32</text>
+<text x="425" y="64" font-size="24" fill="#B9531D" text-anchor="end">→ 速さは観測の 0.68 倍</text>
+<g fill="#2367B8" stroke="#fff" stroke-width="1.5">
+<circle cx="95" cy="85.9" r="7"/>
+<circle cx="125" cy="116.9" r="7"/>
+<circle cx="155" cy="109.3" r="7"/>
+<circle cx="185" cy="140.3" r="7"/>
+<circle cx="215" cy="143.2" r="7"/>
+<circle cx="245" cy="177.6" r="7"/>
+<circle cx="275" cy="173.6" r="7"/>
+<circle cx="305" cy="180" r="7"/>
+<circle cx="335" cy="214.5" r="7"/>
+<circle cx="365" cy="210.4" r="7"/>
+<circle cx="395" cy="234.3" r="7"/>
+</g>
+</svg>
+<p class="caption small">模式図 (データではない)。<span style="color: #2367B8;">●</span> 道の上で読んだ時計<br>実線: 当てはめた直線 / 破線: 観測と同じ速さ</p>
+</div>
+<div class="column-text">
+
+<div class="simple-box dense">
+
+* 22 枚目は中央値。遅れは**全員**か、一部か
+* **形**: Chamfer 距離 (互いの最寄り点までの平均)。時刻は使わない
+* **時計の変化率** $b$: 道の上の時計 (20 枚目) に引いた直線の傾き [h/h]
+
+<div>
+$$ b \approx \frac{v_{\text{予報}}}{v_{\text{観測}}} - 1 \quad \text{(同じ場所で)} $$
+</div>
+
+</div>
+
+</div>
+</div>
+
+<div class="highlight-box dense">
+
+$b$ は遅れが溜まる平均のペースで、時計そのものではない
+
+</div>
+
+Note: 時計 c は、予報の位置の最寄り点を観測の台風が通った時刻 τ から、予報の時刻 t を引いたもの。同じ場所なので、観測が時刻 τ までに道に沿って進んだ距離と、予報が時刻 t までに進んだ距離は等しい。t で微分すると「観測の速さ (τ) × dτ/dt = 予報の速さ (t)」、だから dc/dt = dτ/dt − 1 = 予報の速さ (t) / 観測の速さ (τ) − 1。直線は道の上の点が 3 つ以上あるメンバーにだけ、最小二乗で引く。傾きは、直線を引いた範囲の平均の比になる。b = −0.32 なら 1 日 (24 h) に約 7.7 h ずつ遅れが溜まる。ただし時計は 0 から一直線には溜まっていない: クロヴァンの 48 h の時計は中央値 −8 h で、−0.32 × 48 h = −15 h とは合わない (理由は未確認)。縦軸に傾きを選んだ理由: 予報全体の時計の中央値は、ドゥージェンの「転向まで 0 h、転向後に +14 h」を薄める。ある時刻 (48、72、96 h) の時計は、回によってはループの後や温帯低気圧になった後で読めない。傾きは全員に値がある。
+
+---
+
+### Appendix: 1 本ずつ測る (2): 散布図の読み方
+
+<div class="two-column">
+<div class="column-figure">
+<div class="figure-crop figure-crop-2d" style="width: 330px; aspect-ratio: 845 / 663;"><img src="assets/images/wiki/2026-10-19-shape-and-clock.png" style="width: 265.09%; margin-left: -165.09%; margin-top: -4.73%;"></div>
+<p class="caption small">1 点 = 1 本 / 横: 形 [km]<br>縦 (clock trend): 時計の変化率 [h/h]<br>0 = 観測と同じ速さ、下ほど遅れが溜まる</p>
+<p class="credit">WeatherNext 2 (Google DeepMind、CC BY 4.0)、ERA5 (Copernicus)、<br>気象庁「台風位置表」(速報値・確定値) を加工して作成</p>
+</div>
+<div class="column-text">
+
+<div class="simple-box dense nowrap-first">
+
+<table>
+<tr><th>中央値</th><th>形</th><th>$b$</th><th>速さの比</th></tr>
+<tr><td>クロヴァン</td><td>113 km</td><td>−0.32</td><td>0.68</td></tr>
+<tr><td>ドゥージェン</td><td>82 km</td><td>+0.16</td><td>1.16</td></tr>
+<tr><td>ペイパー</td><td>66 km</td><td>−0.02</td><td>0.98</td></tr>
+</table>
+
+* 大陸組・範囲内組は、形ならドゥージェン並み。それでも遅い
+* 1 回の 8 本は同じ初期値から。40 本は独立な標本でなく「5 回とも全員」
+
+</div>
+
+</div>
+</div>
+
+<div class="highlight-box dense">
+
+形では重なり、$b$ で分かれる。クロヴァンは 40 本**全員**が 0 より下
+
+</div>
+
+Note: クロヴァンの b は最大でも −0.01。1 点が 1 本で、クロヴァン 40 本、ドゥージェン 39 本、ペイパー 32 本。形の 10–90 パーセンタイルは、クロヴァン 65–198 km、ドゥージェン 55–126 km。大陸組と範囲内組の中央値 (73 km と 90 km) は、ドゥージェンの四分位 (61–100 km) に入る。b の範囲は、クロヴァン −0.53 から −0.01、ドゥージェン −0.14 から +0.36、ペイパー −0.26 から +0.15。クロヴァンの時計はループの始まり (09-04 06Z) までしか読まないが、形はループを含む経路全体で測っている。
 
 ---
 
