@@ -75,8 +75,7 @@
 <div class="simple-box">
 
 * **機械学習の天気予報モデル**が出てきた
-  * 例: NVIDIAのFourCastNet (前回はこれ)、MicrosoftのAurora, Google DeepMind の **WeatherNext 2** (今回はこれ)
-  * [以前の物理学集会](https://vrc-ta-hub.com/event/detail/645/)でも話した
+  * 例: NVIDIA の FourCastNet ([以前の物理学集会](https://vrc-ta-hub.com/event/detail/645/)で紹介)、Microsoft の Aurora、Google DeepMind の **WeatherNext 2** (今回)
 * 方程式を解くかわりに、過去の大気のデータから**「6 時間後」を学習**
 * GPU 1 枚で、10 日先までの予報が **1 本 約 3 分**
 
@@ -179,7 +178,7 @@ Note: ここで「外れた」と言い切らない。この先で「何がど�
 
 <div class="highlight-box">
 
-答えるために、**本州へ北上する典型的な台風 2 つ**で同じ実験をして、対照にした
+答えるために、**教科書どおりに北上して転向した台風 2 つ**で同じ実験をして、対照にした
 
 </div>
 
@@ -226,7 +225,7 @@ Note: ERA5 の速報版 (ERA5T) を使っている。ARCO-ERA5 は数か月遅�
 
 <div class="highlight-box">
 
-今回は 8 本とも**初期値は同じ ERA5**。ばらつきはゼロから育つ (あとで効いてくる)
+今回は 8 本とも**初期値は同じ ERA5**。ばらつきはゼロから育つので、実際の誤差より小さめに出る (Appendix)
 
 </div>
 
@@ -501,42 +500,30 @@ km の誤差は「**違う道**」と「**正しい道を違う時刻に**」を
 </div>
 </div>
 
-Note: 進行方向に沿った「前後・左右」に分ける普通のやり方は、ループで向きが回るクロヴァンには使えない。
-
----
-
-### ループする道では時計が読めない
-
-<div class="two-column">
-<div class="column-left dense">
-
-<div class="simple-box">
-
-* クロヴァンの経路は**自分と交差する**
-* 数日離れた 2 回の通過が、同じくらい近くなる
-* だから時計は**ループの始まりまで**しか読まない
-  * 最北点 29.8°N 127.4°E、09-04 06Z
-* 道からの距離は経路全体で測る (ループは面を覆うので甘め)
-
-</div>
-
-</div>
-<div class="column-right">
-
-<div class="figure-crop figure-crop-2d" style="width: 380px; aspect-ratio: 1 / 1;"><img src="assets/images/wiki/2026-10-17-krovanh-tracks.png" style="width: 320%; margin-left: -213.04%; margin-top: -134.78%;"></div>
-
-<p class="credit">気象庁「台風位置表」(速報値) を加工して作成</p>
-
-</div>
-</div>
+Note: 進行方向に沿った「前後・左右」に分ける普通のやり方は、ループで向きが回るクロヴァンには使えない。200 km は 18 枚目の「観測の位置から 200 km 以内」と同じ値で、予報の早い段階の誤差と同じくらいの大きさ。台風についていけているかどうかを分ける線で、良いメンバーとより良いメンバーを分ける線ではない。距離と時計の定義には入らず、「道の上」を数えるときと、時計をまとめるメンバーを選ぶときだけに使う。
 
 ---
 
 ### 道と時計で見ると
 
-<div class="figure-crop" style="width: 556px; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-road-and-clock.png" style="margin-top: -7.03%;"></div>
+<div class="two-column">
+<div class="column-figure">
+<div class="figure-crop" style="width: 520px; aspect-ratio: 1280 / 1030;"><img src="assets/images/wiki/2026-10-17-road-and-clock.png" style="margin-top: -7.03%;"></div>
+<p class="caption small">上: 道の上にいる割合<br>下: 道の上のメンバーの時計 (中央値と四分位、+ = 先行)</p>
+</div>
+<div class="column-text">
 
-<p class="caption">上: 道の上にいる割合 / 下: 道の上のメンバーの時計 (中央値と四分位、+ = 先行)</p>
+<div class="simple-box dense">
+
+* クロヴァンの時計は**ループの始まり**まで
+  * 最北点 29.8°N 127.4°E、09-04 06Z
+* ループする経路は**自分と交差する**。数日離れた 2 回の通過が、同じくらい近くなる
+* 道からの距離は経路全体で測る (ループは面を覆うので甘め)
+
+</div>
+
+</div>
+</div>
 
 ---
 
@@ -653,6 +640,8 @@ $$ \mathrm{Pe} = \frac{\left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\r
 
 </div>
 
+Note: Péclet 数と呼ぶ理由: 一定のドリフトに拡散が乗った動きなら、分子と分母の期待値の比は古典的な Péclet 数 UL/D の単調関数になる (Appendix)。期待値の比であって、比の期待値ではない。
+
 ---
 
 ### 仮定を足さない (1): 何と比べるか
@@ -663,12 +652,6 @@ $$ \mathrm{Pe} = \frac{\left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\r
 * でも**台風はランダムウォークではない**。この値を基準にすると、「台風はこう動くはず」という仮定を 1 つ足すことになる
 * → **同じ時刻・同じ長さの窓での、観測の台風の Pe** と比べる: $\log_{10} (\mathrm{Pe}^{\mathrm{member}} / \mathrm{Pe}^{\mathrm{obs}})$
   * 0: 観測と同じ / +1: メンバーの Pe が観測の 10 倍 (よりまっすぐ) / −1: 1/10 (よりうろうろ)
-
-</div>
-
-<div class="highlight-box dense">
-
-測り方は**追加のメンバーを走らせる前に**書き残した (あとで独立に確かめるため)
 
 </div>
 
@@ -692,7 +675,7 @@ $$ \mathrm{Pe} = \frac{\left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\r
 
 </div>
 
-Note: 下限の 18 時間は、ばらつきを 3 歩以上から測れる最短の窓。2 歩 (12 時間) だと、ばらつきは 2 つの歩幅の差 1 つだけで決まってしまう。データから窓を自動で選ぶ方法 (Pe の時間変化の折れ目を読む) も試したが、どの時刻でも 12 時間に張り付いて使えなかった。
+Note: 下限の 18 時間は、ばらつきを 3 歩以上から測れる最短の窓。2 歩 (12 時間) だと、ばらつきは 2 つの歩幅の差 1 つだけで決まってしまう。データから窓を自動で選ぶ方法 (Pe の時間変化の折れ目を読む) も試したが、どの時刻でも 12 時間に張り付いて使えなかった。上限の 36 時間は区切りで決めたもので、物理的な根拠はない。ループ (約 2 日) と同じ長さの窓は並べていない。
 
 ---
 
@@ -771,7 +754,7 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 <!-- .slide: data-chapter="まとめ" -->
 
-### ほかに分かったこと (1): 追跡は「渦」を追う
+### ほかに分かったこと: 追跡は「渦」を追う
 
 <div class="two-column">
 <div class="column-figure">
@@ -781,31 +764,13 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 <div class="simple-box dense">
 
-* 熱帯の期間の終わりと比べると、クロヴァンのメンバーは中央値で **75 時間長生き**
-* でも追跡は渦を追う。**消滅 (09-10) と比べると 3 時間遅れ**
-* 熱帯の期間中に見失ったのは少数: 40 本中 4、39 本中 3、32 本中 1
+* 熱帯の期間の終わりと比べると、クロヴァンのメンバーは中央値で **<span class="nowrap">75 時間</span>長生き**
+* でも追跡は渦を追う。**消滅 <span class="nowrap">(09-10)</span> と比べると 3 時間遅れ**
+* 熱帯の期間中に見失ったのは少数: クロヴァン 40 本中 4、ドゥージェン 39 本中 3、ペイパー 32 本中 1
 
 </div>
 
 </div>
-</div>
-
----
-
-### ほかに分かったこと (2): アンサンブルは自信過剰
-
-<div class="simple-box">
-
-* 誤差がばらつきの何倍か: クロヴァン 1.6–2.6、ドゥージェン 1.5–3.2、ペイパー 1.0–1.8
-* 3 つとも**ばらつき不足**。台風の性質ではなく、実験の作りの性質
-* 初期値が 8 本とも同じなので、ばらつきはゼロから育つ
-
-</div>
-
-<div class="highlight-box">
-
-実際の予報では初期値の不確かさも混ぜる。今回は**わざと混ぜていない**
-
 </div>
 
 ---
@@ -825,7 +790,7 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 <div class="highlight-box">
 
-測り方を先に決めて書き残し、**追加のメンバーで独立に確かめる**
+定義を書き残していたから、**なぜ外れたか**まで言える。外れた仮説も学びになる
 
 </div>
 
@@ -871,11 +836,12 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 1. WeatherNext 2 は対照の 2 つの台風の**道**をよく再現した。迷走したクロヴァンでは**道が割れ、誰もループしなかった**
 2. km の誤差だけでは台風を比べられない。**道と時計**に分けると、ドゥージェンは「正しい道を半日早く」、クロヴァンは「停滞で道が割れた」
-3. 停滞は **Péclet 数**で測れる。**嵐が止まった日にメンバーは走り、動き出してから鈍った**
+3. 停滞は **Péclet 数**で、閾値を決めずに測れる。**嵐が止まった日にメンバーは走り、動き出してから鈍った**
+4. 測り方を書き残しておくと、**外れた仮説も学びになる**
 
 </div>
 
-<p class="caption">数字はすべて暫定値 (気象庁の速報値ベース)</p>
+<p class="caption">数字は暫定値。2026 年の 2 つは気象庁の速報値と比べている</p>
 
 ---
 
@@ -941,6 +907,24 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 ---
 
+### Appendix: アンサンブルは自信過剰
+
+<div class="simple-box">
+
+* 誤差がばらつきの何倍か: クロヴァン 1.6–2.6、ドゥージェン 1.5–3.2、ペイパー 1.0–1.8
+* 3 つとも**ばらつき不足**。台風の性質ではなく、実験の作りの性質
+* 初期値が 8 本とも同じなので、ばらつきはゼロから育つ
+
+</div>
+
+<div class="highlight-box">
+
+実際の予報では初期値の不確かさも混ぜる。今回は**わざと混ぜていない**
+
+</div>
+
+---
+
 ### Appendix: 台風の「発生」の時刻
 
 <div class="simple-box">
@@ -954,23 +938,27 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 ---
 
-### Appendix: ランダムウォークなら 1.33
+### Appendix: なぜ Péclet 数と呼ぶか
 
 <div class="simple-box dense">
 
-歩幅 $\Delta \mathbf{x}_{i}$ が独立で平均 0、$\langle \lvert \Delta \mathbf{x} \rvert^{2} \rangle = s^{2}$ のとき
+1 歩を一定のドリフトと揺らぎに分ける (2 次元、揺らぎは独立で平均 0)
 
 <div>
-$$ \left\langle \left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2} \right\rangle = n s^{2}, \qquad \left\langle \sum_{i=1}^{n} \left\lvert \Delta \mathbf{x}_{i} - \overline{\Delta \mathbf{x}} \right\rvert^{2} \right\rangle = (n - 1) s^{2} $$
+$$ \Delta \mathbf{x}_{i} = \mathbf{U} \Delta t + \boldsymbol{\xi}_{i}, \qquad \langle \lvert \boldsymbol{\xi}_{i} \rvert^{2} \rangle = 4 D \Delta t $$
 </div>
 
-なので、期待値の比は $n / (n - 1)$ (4 歩なら 1.33)
+窓の長さ $T = n \Delta t$、そのあいだにドリフトで進む距離 $L = U T$ とおくと
+
+<div>
+$$ \frac{\langle \text{Pe の分子} \rangle}{\langle \text{Pe の分母} \rangle} =\frac{n^{2} U^{2} (\Delta t)^{2} + 4 n D \Delta t}{4 (n - 1) D \Delta t} = \frac{n}{n - 1} \left( 1 + \frac{U L}{4 D} \right) $$
+</div>
 
 </div>
 
-<div class="highlight-box">
+<div class="highlight-box dense">
 
-台風はランダムウォークではないので、この値は基準に使わなかった
+古典的な Péclet 数 $UL/D$ の単調関数。$U = 0$ (ランダムウォーク) なら ${n / (n - 1)}$ (4 歩で 1.33)。期待値の比で、比の期待値ではない。台風はこのモデルどおりに動かないので、基準には使わなかった
 
 </div>
 
@@ -1025,6 +1013,8 @@ $$ \left\langle \left\lvert \sum_{i=1}^{n} \Delta \mathbf{x}_{i} \right\rvert^{2
 
 <div class="simple-box ref-list">
 
+* J. Pathak et al., "FourCastNet: A Global Data-driven High-resolution Weather Model using Adaptive Fourier Neural Operators", arXiv:2202.11214 (2022)
+* C. Bodnar et al., "A foundation model for the Earth system", Nature 641, 1180 (2025)
 * R. Lam et al., "Learning skillful medium-range global weather forecasting", Science 382, 1416 (2023)
 * I. Price et al., "Probabilistic weather forecasting with machine learning", Nature 637, 84 (2025)
 * F. Alet et al., "Skillful joint probabilistic weather forecasting from marginals", arXiv:2506.10772 (2025)
