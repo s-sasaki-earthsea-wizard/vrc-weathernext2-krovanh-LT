@@ -252,7 +252,7 @@ Note: ERA5 の速報版 (ERA5T) を使っている。ARCO-ERA5 は数か月遅�
 
 </div>
 
-Note: ペイパーは台風だった期間が 42 時間しかないので、開始時刻を最初の熱帯低気圧に合わせた。
+Note: ペイパーは台風だった期間が 42 時間しかないので、開始時刻を最初の熱帯低気圧に合わせた。台風・熱帯低気圧・温帯低気圧の呼び分けは気象庁の予報用語に従う (Appendix)。この発表の「熱帯低気圧」は、気象情報での使い方と同じく台風に満たないものを指す。
 
 ---
 
@@ -822,7 +822,7 @@ Note: 値があるメンバーが 40 本の半数に満たない窓は描いて�
 
 * 予報: **WeatherNext 2**, Google DeepMind (CC BY 4.0)。チェックポイント `WeatherNext2_<2025_model1` から台風の経路を取り出して作図
 * 初期値: **ERA5**。Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.
-* 台風の経路: 出典：**気象庁**ホームページ「台風位置表」([https://www.data.jma.go.jp/typhoon/position_table/](https://www.data.jma.go.jp/typhoon/position_table/)) を加工して作成 (速報値・確定値)
+* 台風の経路と用語: 出典：**気象庁**ホームページ「台風位置表」([https://www.data.jma.go.jp/typhoon/position_table/](https://www.data.jma.go.jp/typhoon/position_table/)) (速報値・確定値)、「予報用語」「台風の一生」(URL は参考文献) を加工して作成
 * 地図: Natural Earth / © OpenStreetMap contributors
 * コードと Wiki: [github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh](https://github.com/s-sasaki-earthsea-wizard/WeatherNext2-typhoon-Krovanh) (Apache-2.0)
 
@@ -997,6 +997,31 @@ Note: クロヴァンの b は最大でも −0.01。1 点が 1 本で、クロ�
 
 ---
 
+### Appendix: 台風・熱帯低気圧・温帯低気圧
+
+<div class="results-box dense nowrap-first">
+
+<table>
+<tr><th></th><th>気象庁の予報用語</th><th>この発表では</th></tr>
+<tr><td>台風</td><td>北西太平洋か南シナ海にある熱帯低気圧のうち、最大風速がおよそ 17 m/s 以上のもの</td><td>「台風になった時刻」= 発生</td></tr>
+<tr><td>熱帯低気圧</td><td>熱帯・亜熱帯で発生する低気圧の総称 (台風も含む)。ただし気象情報では、台風に満たない (最大風速がおよそ 17 m/s 未満) もの</td><td>気象情報での意味。ペイパーの予報の開始、クロヴァンの比べる範囲の終わり</td></tr>
+<tr><td>温帯低気圧</td><td>中緯度や高緯度に発生する、水平スケール数千 km 程度の低気圧。前線を伴うことが多い</td><td>ドゥージェンとペイパーの比べる範囲の終わり</td></tr>
+</table>
+
+</div>
+
+<div class="highlight-box dense">
+
+比べるのは、熱帯低気圧か温帯低気圧に変わるまで。名前が変わっても渦は残る
+
+</div>
+
+<p class="credit">気象庁「予報用語」(気圧・高気圧・低気圧に関する用語、台風に関する用語)、「台風の一生」を加工して作成</p>
+
+Note: 予報用語の原文。熱帯低気圧:「1)熱帯または亜熱帯地方に発生する低気圧の総称で、風の弱いものから台風やハリケーンのように強いものまである。2)気象情報等で｢熱帯低気圧｣を用いる場合は、台風に満たない、低気圧域内の最大風速がおよそ17m/s（34ノット、風力8）未満のものを指す。」台風:「北西太平洋または南シナ海に存在する熱帯低気圧のうち、低気圧域内の最大風速がおよそ17m/s（34ノット、風力8）以上のもの。」温帯低気圧:「中緯度や高緯度に発生する水平スケール数千km程度の低気圧で、前線を伴うことが多い。」備考は「通常は単に「低気圧」とするが、台風が温帯低気圧に変わったときなど、その変化を強調する場合に用いる。」「名前が変わっても渦は残る」: 「台風の一生」の衰弱期に、温帯低気圧に変わった後も寒気の影響で再発達することがあると書かれている (30 枚目の「追跡は渦を追う」)。比べる範囲の終わりは、クロヴァン 2026-09-07 00Z (熱帯低気圧)、ドゥージェン 2026-09-22 12Z、ペイパー 2025-09-05 18Z (温帯低気圧)。
+
+---
+
 ### Appendix: 台風の「発生」の時刻
 
 <div class="simple-box">
@@ -1081,7 +1106,7 @@ $$ \frac{\langle \text{Pe の分子} \rangle}{\langle \text{Pe の分母} \rangl
 
 ---
 
-### 参考文献
+### 参考文献 (1): 論文
 
 <div class="simple-box ref-list">
 
@@ -1091,8 +1116,20 @@ $$ \frac{\langle \text{Pe の分子} \rangle}{\langle \text{Pe の分母} \rangl
 * I. Price et al., "Probabilistic weather forecasting with machine learning", Nature 637, 84 (2025)
 * F. Alet et al., "Skillful joint probabilistic weather forecasting from marginals", arXiv:2506.10772 (2025)
 * H. Hersbach et al., "The ERA5 global reanalysis", Q. J. R. Meteorol. Soc. 146, 1999 (2020)
-* 気象庁, 台風位置表 (T2624, T2625: 速報値 / T2515: 確定値)
+
+</div>
+
+---
+
+### 参考文献 (2): データ・ソフトウェア・ウェブページ
+
+<div class="simple-box ref-list">
+
+* 気象庁, 台風位置表 (T2624, T2625: 速報値 / T2515: 確定値), [https://www.data.jma.go.jp/typhoon/position_table/](https://www.data.jma.go.jp/typhoon/position_table/)
 * google-deepmind/weathernext v0.3.0 (付属の台風追跡プログラム)
+* 気象庁, 予報用語「気圧・高気圧・低気圧に関する用語」, [https://www.jma.go.jp/jma/kishou/know/yougo_hp/haichi1.html](https://www.jma.go.jp/jma/kishou/know/yougo_hp/haichi1.html) <span class="nowrap">(2026-11-23 閲覧)</span>
+* 気象庁, 予報用語「台風に関する用語」, [https://www.jma.go.jp/jma/kishou/know/yougo_hp/haichi2.html](https://www.jma.go.jp/jma/kishou/know/yougo_hp/haichi2.html) <span class="nowrap">(2026-11-23 閲覧)</span>
+* 気象庁, 台風の一生, [https://www.jma.go.jp/jma/kishou/know/typhoon/1-2.html](https://www.jma.go.jp/jma/kishou/know/typhoon/1-2.html) <span class="nowrap">(2026-11-23 閲覧)</span>
 
 </div>
 
